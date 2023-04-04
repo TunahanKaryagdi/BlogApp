@@ -27,6 +27,7 @@ class LoginViewState extends State<LoginView> {
             Text(
               StringConstants.helloText,
               style: Theme.of(context).textTheme.headlineLarge,
+              
             ),
             context.emptySizedHeightBoxNormal,
             Text(StringConstants.email,

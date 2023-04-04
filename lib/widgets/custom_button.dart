@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+// ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   VoidCallback onClick;
   String text;
@@ -13,13 +14,13 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       height: context.dynamicHeight(0.07),
       child: ElevatedButton(
-        child: Text(text),
         onPressed: onClick,
         style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ))),
+        child: Text(text),
       ),
     );
   }
