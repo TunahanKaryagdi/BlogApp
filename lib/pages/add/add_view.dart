@@ -5,6 +5,7 @@ import '../../utils/string_constants.dart';
 import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_tag_view.dart';
+import '../../widgets/custom_title.dart';
 
 class AddView extends StatelessWidget {
   const AddView({super.key});
@@ -13,39 +14,24 @@ class AddView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          StringConstants.create,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium!
-              .merge(TextStyle(color: Theme.of(context).primaryColor)),
-        ),
+        title: customPageTitle(context, StringConstants.create),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: context.paddingLow,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              StringConstants.tags,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            customTitle(context, StringConstants.tags),
             context.emptySizedHeightBoxLow,
             CustomTagView(text: TagTexts.Economy.name),
             context.emptySizedHeightBoxNormal,
-            Text(
-              StringConstants.title,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            customTitle(context, StringConstants.title),
             context.emptySizedHeightBoxLow,
             TextFormField(
               decoration: _inputDecoration(StringConstants.title),
             ),
             context.emptySizedHeightBoxNormal,
-            Text(
-              StringConstants.description,
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            customTitle(context, StringConstants.description),
             context.emptySizedHeightBoxLow,
             TextFormField(
               decoration: _inputDecoration(StringConstants.description),

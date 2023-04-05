@@ -1,6 +1,7 @@
+import 'package:blog_app/pages/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/add/add_view.dart';
+import 'pages/home/home_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: AddView(),
+      home: const ProfileView(),
     );
   }
 }

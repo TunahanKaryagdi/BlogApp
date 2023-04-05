@@ -27,20 +27,6 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Container _tagView() {
-    return Container(
-      alignment: Alignment.center,
-      height: context.dynamicHeight(0.03),
-      decoration: BoxDecoration(
-          border: Border.all(color: context.appTheme.primaryColor),
-          borderRadius: BorderRadius.circular(context.dynamicHeight(0.015))),
-      child: Padding(
-        padding: context.horizontalPaddingLow,
-        child: const Text("Technologies"),
-      ),
-    );
-  }
-
   Card _customCard() {
     return Card(
       child: Padding(

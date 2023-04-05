@@ -13,4 +13,6 @@ class StringConstants {
   static const String description = 'Description';
   static const String tags = 'Tags';
   static const String save = 'Save';
+  static const String profile = 'Profile';
+  static const String name = "Name";
 }
