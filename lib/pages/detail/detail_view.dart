@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_tag_view.dart';
 
 class DetailView extends StatefulWidget {
@@ -29,7 +30,10 @@ class _DetailViewState extends State<DetailView> {
             _userCard(),
             context.emptySizedHeightBoxLow,
             Row(
-              children: [CustomTagView(), CustomTagView()],
+              children: [
+                CustomTagView(text: TagTexts.Economy.name),
+                CustomTagView(text: TagTexts.Sport.name)
+              ],
             ),
             context.emptySizedHeightBoxLow,
             _description(context),

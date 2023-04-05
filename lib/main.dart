@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/detail/detail_view.dart';
+import 'pages/add/add_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +17,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.brown).copyWith(
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent, elevation: 0),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
       ),
-      home: const DetailView(),
+      home: AddView(),
     );
   }
 }

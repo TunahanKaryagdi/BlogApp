@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_tag_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -75,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   context.emptySizedHeightBoxLow,
                   Row(
-                    children: [CustomTagView()],
+                    children: [CustomTagView(text: TagTexts.Economy.name)],
                   )
                 ],
               ),
