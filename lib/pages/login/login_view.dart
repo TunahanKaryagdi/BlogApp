@@ -3,6 +3,7 @@ import 'package:kartal/kartal.dart';
 
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
+import '../../widgets/custom_title.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -24,20 +25,14 @@ class LoginViewState extends State<LoginView> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              StringConstants.helloText,
-              style: Theme.of(context).textTheme.headlineLarge,
-              
-            ),
+            customPageTitle(context, StringConstants.helloText),
             context.emptySizedHeightBoxNormal,
-            Text(StringConstants.email,
-                style: Theme.of(context).textTheme.titleMedium),
+            customTitle(context, StringConstants.email),
             TextFormField(
               controller: email,
             ),
             context.emptySizedHeightBoxNormal,
-            Text(StringConstants.password,
-                style: Theme.of(context).textTheme.titleMedium),
+            customTitle(context, StringConstants.password),
             TextFormField(
               controller: password,
             ),

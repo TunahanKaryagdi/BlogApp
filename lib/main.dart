@@ -1,7 +1,7 @@
-import 'package:blog_app/pages/profile/profile_view.dart';
+import 'package:blog_app/pages/detail/detail_view.dart';
 import 'package:flutter/material.dart';
 
-import 'pages/home/home_view.dart';
+import 'pages/login/login_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: const ProfileView(),
+      home: DetailView(),
     );
   }
 }

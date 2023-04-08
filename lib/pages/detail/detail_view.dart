@@ -3,6 +3,7 @@ import 'package:kartal/kartal.dart';
 
 import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_tag_view.dart';
+import '../../widgets/custom_title.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({super.key});
@@ -25,7 +26,7 @@ class _DetailViewState extends State<DetailView> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _stackImageAndBackButton(context),
             context.emptySizedHeightBoxLow,
-            _title(context),
+            customPageTitle(context, "Title"),
             context.emptySizedHeightBoxLow,
             _userCard(),
             context.emptySizedHeightBoxLow,
@@ -50,18 +51,10 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  Text _title(BuildContext context) {
-    return Text(
-      'title',
-      style: Theme.of(context).textTheme.headlineMedium!.merge(TextStyle(
-          fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
-    );
-  }
-
   Stack _stackImageAndBackButton(BuildContext context) {
     return Stack(
       children: [
-        Icon(Icons.arrow_back),
+        const Icon(Icons.arrow_back),
         Image.network(
           'https://avatars.githubusercontent.com/u/92988984?s=400&v=4',
           height: context.dynamicHeight(0.3),
@@ -84,13 +77,7 @@ class _DetailViewState extends State<DetailView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'name surname',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .merge(const TextStyle(fontWeight: FontWeight.bold)),
-                ),
+                customTitle(context, 'name surname'),
                 context.emptySizedHeightBoxLow,
                 Text(
                   'email',

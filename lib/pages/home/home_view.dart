@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../utils/string_constants.dart';
 import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_tag_view.dart';
+import '../../widgets/custom_title.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,6 +17,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: customPageTitle(context, StringConstants.home),
+      ),
       body: Padding(
         padding: context.paddingLow,
         child: ListView.builder(
