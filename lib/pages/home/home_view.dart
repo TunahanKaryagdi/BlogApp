@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../models/blog.dart';
 import '../../utils/string_constants.dart';
-import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_tag_view.dart';
 import '../../widgets/custom_title.dart';
+import 'home_view_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,6 +16,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  late final HomeViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = HomeViewModel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,17 +32,27 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Padding(
         padding: context.paddingLow,
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return _customCard();
+        child: StreamBuilder(
+          stream: _viewModel.getBlogStreams(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final blogs = snapshot.data?.docs ?? [];
+              return ListView.builder(
+                itemCount: blogs.length,
+                itemBuilder: (context, index) {
+                  return _customCard(Blog.fromSnapshot(blogs[index]));
+                },
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
           },
-          itemCount: 5,
         ),
       ),
     );
   }
 
-  Card _customCard() {
+  Card _customCard(Blog blog) {
     return Card(
       child: Padding(
         padding: context.paddingNormal,
@@ -47,7 +67,7 @@ class _HomeViewState extends State<HomeView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Başlık',
+                    blog.title,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   context.emptySizedHeightBoxLow,
@@ -60,14 +80,16 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       context.emptySizedWidthBoxLow,
                       Text(
-                        'Tarih',
+                        calculateDate(blog.date),
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ],
                   ),
                   context.emptySizedHeightBoxLow,
                   Row(
-                    children: [CustomTagView(text: TagTexts.Economy.name)],
+                    children: blog.tags
+                        .map((e) => CustomTagView(text: e.toString()))
+                        .toList(),
                   )
                 ],
               ),
@@ -76,5 +98,11 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     );
+  }
+
+  String calculateDate(Timestamp date) {
+    DateTime temp = date.toDate();
+    Duration difference = temp.difference(DateTime.now());
+    return '${difference.inDays.toString()} days ago';
   }
 }
