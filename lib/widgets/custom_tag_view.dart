@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-class CustomTagView extends StatefulWidget {
+class CustomTagView extends StatelessWidget {
   const CustomTagView({
+    required this.text,
     super.key,
-    required String text,
   });
 
-  @override
-  State<CustomTagView> createState() => _CustomTagViewState();
-}
+  final String text;
 
-class _CustomTagViewState extends State<CustomTagView> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +17,7 @@ class _CustomTagViewState extends State<CustomTagView> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Theme.of(context).primaryColor, width: 2)),
       child: Text(
-        "Tag",
+        text,
         style: Theme.of(context)
             .textTheme
             .bodyMedium!

@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/blog.dart';
 import '../../utils/string_constants.dart';
@@ -22,33 +22,42 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _viewModel = HomeViewModel();
+    init();
+  }
+
+  void init() {
+    _viewModel.start();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: customPageTitle(context, StringConstants.home),
-      ),
-      body: Padding(
-        padding: context.paddingLow,
-        child: StreamBuilder(
-          stream: _viewModel.getBlogStreams(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final blogs = snapshot.data?.docs ?? [];
-              return ListView.builder(
-                itemCount: blogs.length,
-                itemBuilder: (context, index) {
-                  return _customCard(Blog.fromSnapshot(blogs[index]));
-                },
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-      ),
+    return ChangeNotifierProvider.value(
+      value: _viewModel,
+      builder: (context, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: customPageTitle(context, StringConstants.home),
+          ),
+          body: context.watch<HomeViewModel>().isLoading
+              ? _loadingView()
+              : Padding(
+                  padding: context.paddingLow,
+                  child: ListView.builder(
+                    itemCount: context.watch<HomeViewModel>().blogList.length,
+                    itemBuilder: (context, index) {
+                      return _customCard(
+                          context.watch<HomeViewModel>().blogList[index]);
+                    },
+                  ),
+                ),
+        );
+      },
+    );
+  }
+
+  Center _loadingView() {
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 
@@ -75,12 +84,12 @@ class _HomeViewState extends State<HomeView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'İsim',
+                        blog.user?.name ?? StringConstants.unknown,
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       context.emptySizedWidthBoxLow,
                       Text(
-                        calculateDate(blog.date),
+                        _viewModel.calculateDate(blog.date),
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ],
@@ -88,7 +97,9 @@ class _HomeViewState extends State<HomeView> {
                   context.emptySizedHeightBoxLow,
                   Row(
                     children: blog.tags
-                        .map((e) => CustomTagView(text: e.toString()))
+                        .map((e) => CustomTagView(
+                              text: e,
+                            ))
                         .toList(),
                   )
                 ],
@@ -98,11 +109,5 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     );
-  }
-
-  String calculateDate(Timestamp date) {
-    DateTime temp = date.toDate();
-    Duration difference = temp.difference(DateTime.now());
-    return '${difference.inDays.toString()} days ago';
   }
 }
