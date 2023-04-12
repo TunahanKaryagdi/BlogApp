@@ -13,9 +13,6 @@ class HomeViewModel extends ChangeNotifier {
     final usersSnapshot = await FirebaseCollections.users.reference.get();
     final blogsSnapshot = await FirebaseCollections.blogs.reference.get();
 
-    final List<User> users =
-        usersSnapshot.docs.map((doc) => User.fromSnapshot(doc)).toList();
-
     final List<Blog> blogs = blogsSnapshot.docs.map((doc) {
       final userId = doc.get('userId');
       final user =

@@ -95,7 +95,7 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                   context.emptySizedHeightBoxLow,
-                  Row(
+                  Wrap(
                     children: blog.tags
                         .map((e) => CustomTagView(
                               text: e,

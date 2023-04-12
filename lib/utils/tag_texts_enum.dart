@@ -1,10 +1,3 @@
-enum TagTexts {
-  // ignore: constant_identifier_names
-  Technology,
-  // ignore: constant_identifier_names
-  Social,
-  // ignore: constant_identifier_names
-  Economy,
-  // ignore: constant_identifier_names
-  Sport
-}
+// ignore_for_file: constant_identifier_names
+
+enum TagTexts { Technology, Social, Economy, Sport }

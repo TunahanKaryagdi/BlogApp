@@ -18,4 +18,5 @@ class StringConstants {
   static const String profile = 'Profile';
   static const String name = "Name";
   static const String unknown = "Unknown";
+  static const String typeSth = "Type Something";
 }
