@@ -4,6 +4,7 @@ import 'package:kartal/kartal.dart';
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_title.dart';
+import 'login_view_model.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -13,42 +14,64 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  late final LoginViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = LoginViewModel();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: context.horizontalPaddingNormal,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            customPageTitle(context, StringConstants.helloText),
-            context.emptySizedHeightBoxNormal,
-            customTitle(context, StringConstants.email),
-            TextFormField(
-              controller: email,
-            ),
-            context.emptySizedHeightBoxNormal,
-            customTitle(context, StringConstants.password),
-            TextFormField(
-              controller: password,
-            ),
-            context.emptySizedHeightBoxNormal,
-            CustomButton(
-              text: StringConstants.login,
-              onClick: () {},
-            ),
-            context.emptySizedHeightBoxNormal,
-            CustomButton(
-              text: StringConstants.signup,
-              onClick: () {},
-            ),
-          ],
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+              child: SizedBox(
+            height: context.height,
+            child: _titlesAndInputsColumn(context),
+          )),
         ),
       ),
+    );
+  }
+
+  Column _titlesAndInputsColumn(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        customPageTitle(context, StringConstants.helloText),
+        context.emptySizedHeightBoxNormal,
+        customTitle(context, StringConstants.email),
+        TextFormField(
+          controller: _viewModel.email,
+          validator: _viewModel.textFieldValidator,
+        ),
+        context.emptySizedHeightBoxNormal,
+        customTitle(context, StringConstants.password),
+        TextFormField(
+            controller: _viewModel.password,
+            validator: _viewModel.textFieldValidator),
+        context.emptySizedHeightBoxNormal,
+        CustomButton(
+          text: StringConstants.login,
+          onClick: () async {
+            if (_formKey.currentState?.validate() ?? false) {
+              await _viewModel.login();
+            }
+          },
+        ),
+        context.emptySizedHeightBoxNormal,
+        CustomButton(
+          text: StringConstants.signup,
+          onClick: () {},
+        ),
+      ],
     );
   }
 }

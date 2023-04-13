@@ -35,7 +35,10 @@ class _SignupViewState extends State<SignupView> {
               padding: context.horizontalPaddingNormal,
               child: Form(
                 key: _formKey,
-                child: _titleAndInputColumn(context),
+                child: SizedBox(
+                  height: context.height,
+                  child: _titleAndInputColumn(context),
+                ),
               ),
             ),
           );

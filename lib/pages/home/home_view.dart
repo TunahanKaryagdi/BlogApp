@@ -95,12 +95,12 @@ class _HomeViewState extends State<HomeView> {
                     ],
                   ),
                   context.emptySizedHeightBoxLow,
-                  Wrap(
-                    children: blog.tags
-                        .map((e) => CustomTagView(
-                              text: e,
-                            ))
-                        .toList(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children:
+                          blog.tags.map((e) => CustomTagView(text: e)).toList(),
+                    ),
                   )
                 ],
               ),

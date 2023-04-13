@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-import '../../models/user.dart';
+import '../../models/user.dart' as UserModel;
 import '../../services/auth_service.dart';
 import '../../services/firestore_service.dart';
 import '../../utils/firebase_collection_enum.dart';
@@ -23,8 +24,13 @@ class SignupViewModel extends ChangeNotifier {
   }
 
   Future<void> signUp() async {
-    await _authService.signUp(email.text, password.text);
+    User? user = await _authService.signup(email.text, password.text);
+    if (user == null) {
+      //error message
+      return;
+    }
     await _firestoreService.saveToFirebase(
-        User(name.text, surname.text, email.text), FirebaseCollections.users);
+        UserModel.User(name.text, surname.text, email.text),
+        FirebaseCollections.users);
   }
 }
