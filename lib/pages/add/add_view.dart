@@ -40,7 +40,7 @@ class _AddViewState extends State<AddView> {
                 padding: context.paddingLow,
                 child: Form(
                   key: _formKey,
-                  child: _titlesAndInputs(context),
+                  child: _titlesAndInputColumn(context),
                 ),
               ),
             );
@@ -48,7 +48,7 @@ class _AddViewState extends State<AddView> {
         ));
   }
 
-  Column _titlesAndInputs(BuildContext context) {
+  Column _titlesAndInputColumn(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       customTitle(context, StringConstants.tags),
       context.emptySizedHeightBoxLow,
