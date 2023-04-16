@@ -37,7 +37,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           context.emptySizedHeightBoxNormal,
           CustomButton(
-            text: StringConstants.save,
+            widget: const Text(StringConstants.save),
             onClick: () {},
           )
         ]),

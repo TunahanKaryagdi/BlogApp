@@ -59,7 +59,7 @@ class LoginViewState extends State<LoginView> {
             validator: _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          text: StringConstants.login,
+          widget: const Text(StringConstants.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
               await _viewModel.login();
@@ -68,7 +68,7 @@ class LoginViewState extends State<LoginView> {
         ),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          text: StringConstants.signup,
+          widget: const Text(StringConstants.signup),
           onClick: () {},
         ),
       ],

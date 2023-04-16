@@ -4,9 +4,9 @@ import 'package:kartal/kartal.dart';
 // ignore: must_be_immutable
 class CustomButton extends StatelessWidget {
   VoidCallback onClick;
-  String text;
+  Widget widget;
 
-  CustomButton({super.key, required this.text, required this.onClick});
+  CustomButton({super.key, required this.widget, required this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
                 RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ))),
-        child: Text(text),
+        child: widget,
       ),
     );
   }
