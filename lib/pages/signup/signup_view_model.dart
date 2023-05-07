@@ -5,8 +5,10 @@ import 'package:kartal/kartal.dart';
 import '../../models/user.dart' as UserModel;
 import '../../services/auth_service.dart';
 import '../../services/firestore_service.dart';
+import '../../utils/custom_navigator.dart';
 import '../../utils/firebase_collection_enum.dart';
 import '../../utils/string_constants.dart';
+import '../main/main_view.dart';
 
 class SignupViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
@@ -23,7 +25,7 @@ class SignupViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<void> signUp() async {
+  Future<void> signUp(BuildContext context) async {
     User? user = await _authService.signup(email.text, password.text);
     if (user == null) {
       //error message
@@ -32,5 +34,9 @@ class SignupViewModel extends ChangeNotifier {
     await _firestoreService.saveToFirebase(
         UserModel.User(name.text, surname.text, email.text),
         FirebaseCollections.users);
+
+    if (context.mounted) {
+      CustomNavigator.pushReplacementTo(context, const MainView());
+    }
   }
 }

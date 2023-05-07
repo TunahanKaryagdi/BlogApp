@@ -92,7 +92,9 @@ class _AddViewState extends State<AddView> {
           }),
       context.emptySizedHeightBoxNormal,
       CustomButton(
-          widget: const Text(StringConstants.save),
+          widget: _viewModel.isLoading
+              ? const CircularProgressIndicator()
+              : const Text(StringConstants.save),
           onClick: () {
             if (_formKey.currentState?.validate() ?? false) {
               _viewModel.saveBlogToFirebase();

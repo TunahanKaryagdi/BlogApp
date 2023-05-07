@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
 
 import '../../models/blog.dart';
 import '../../models/user.dart';
@@ -15,9 +16,13 @@ class HomeViewModel extends ChangeNotifier {
 
     final List<Blog> blogs = blogsSnapshot.docs.map((doc) {
       final userId = doc.get('userId');
-      final user =
-          usersSnapshot.docs.firstWhere((element) => element.id == userId);
 
+      final user = usersSnapshot.docs
+          .firstWhereOrNull((element) => element.id == userId);
+
+      if (user == null) {
+        return Blog.fromSnapshot(doc);
+      }
       return Blog.fromSnapshot(doc, user: User.fromSnapshot(user));
     }).toList();
 

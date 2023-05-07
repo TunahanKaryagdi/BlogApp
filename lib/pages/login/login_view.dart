@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../utils/custom_navigator.dart';
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_title.dart';
+import '../signup/signup_view.dart';
 import 'login_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -62,14 +64,16 @@ class LoginViewState extends State<LoginView> {
           widget: const Text(StringConstants.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              await _viewModel.login();
+              await _viewModel.login(context);
             }
           },
         ),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: const Text(StringConstants.signup),
-          onClick: () {},
+          onClick: () {
+            CustomNavigator.pushTo(context, const SignupView());
+          },
         ),
       ],
     );

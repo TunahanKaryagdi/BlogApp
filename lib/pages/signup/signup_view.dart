@@ -80,7 +80,7 @@ class _SignupViewState extends State<SignupView> {
           widget: const Text(StringConstants.save),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              await _viewModel.signUp();
+              await _viewModel.signUp(context);
             }
           },
         )
