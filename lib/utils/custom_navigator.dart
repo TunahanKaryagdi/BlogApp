@@ -12,4 +12,8 @@ class CustomNavigator {
       builder: (context) => toScreen,
     ));
   }
+
+  static void pop(BuildContext context) {
+    Navigator.of(context).pop();
+  }
 }

@@ -4,7 +4,9 @@ import 'package:kartal/kartal.dart';
 
 import '../../models/blog.dart';
 import '../../models/user.dart';
+import '../../utils/custom_navigator.dart';
 import '../../utils/firebase_collection_enum.dart';
+import '../detail/detail_view.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<Blog> blogList = [];
@@ -45,5 +47,9 @@ class HomeViewModel extends ChangeNotifier {
     DateTime temp = date.toDate();
     Duration difference = DateTime.now().difference(temp);
     return '${difference.inDays.toString()} days ago';
+  }
+
+  void goToDetailPage(BuildContext context, Blog blog) {
+    CustomNavigator.pushTo(context, DetailView(blog: blog));
   }
 }

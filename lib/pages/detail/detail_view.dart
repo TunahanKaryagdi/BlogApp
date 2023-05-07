@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-import '../../utils/tag_texts_enum.dart';
+import '../../models/blog.dart';
+import '../../utils/custom_navigator.dart';
 import '../../widgets/custom_tag_view.dart';
 import '../../widgets/custom_title.dart';
 
 class DetailView extends StatefulWidget {
-  const DetailView({super.key});
+  const DetailView({super.key, required this.blog});
+  final Blog blog;
 
   @override
   State<DetailView> createState() => _DetailViewState();
@@ -26,27 +28,25 @@ class _DetailViewState extends State<DetailView> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             _stackImageAndBackButton(context),
             context.emptySizedHeightBoxLow,
-            customPageTitle(context, "Title"),
+            customPageTitle(context, widget.blog.title),
             context.emptySizedHeightBoxLow,
             _userCard(),
             context.emptySizedHeightBoxLow,
             Row(
-              children: [
-                CustomTagView(text: TagTexts.Economy.name),
-                CustomTagView(text: TagTexts.Sport.name)
-              ],
+              children:
+                  widget.blog.tags.map((e) => CustomTagView(text: e)).toList(),
             ),
             context.emptySizedHeightBoxLow,
-            _description(context),
+            _description(context, widget.blog.description),
           ]),
         ),
       ),
     );
   }
 
-  Text _description(BuildContext context) {
+  Text _description(BuildContext context, String desc) {
     return Text(
-      tempData,
+      desc,
       style: Theme.of(context).textTheme.bodyLarge,
     );
   }
@@ -54,11 +54,16 @@ class _DetailViewState extends State<DetailView> {
   Stack _stackImageAndBackButton(BuildContext context) {
     return Stack(
       children: [
-        const Icon(Icons.arrow_back),
         Image.network(
           'https://avatars.githubusercontent.com/u/92988984?s=400&v=4',
           height: context.dynamicHeight(0.3),
           width: double.infinity,
+        ),
+        InkWell(
+          onTap: () {
+            CustomNavigator.pop(context);
+          },
+          child: Icon(Icons.arrow_back),
         )
       ],
     );
@@ -77,10 +82,10 @@ class _DetailViewState extends State<DetailView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                customTitle(context, 'name surname'),
+                customTitle(context, widget.blog.user?.name ?? "unknown"),
                 context.emptySizedHeightBoxLow,
                 Text(
-                  'email',
+                  widget.blog.user?.email ?? "unknown",
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],

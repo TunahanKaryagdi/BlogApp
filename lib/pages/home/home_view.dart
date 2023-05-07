@@ -46,7 +46,8 @@ class _HomeViewState extends State<HomeView> {
                     itemCount: context.watch<HomeViewModel>().blogList.length,
                     itemBuilder: (context, index) {
                       return _customCard(
-                          context.watch<HomeViewModel>().blogList[index]);
+                          context.watch<HomeViewModel>().blogList[index],
+                          context);
                     },
                   ),
                 ),
@@ -61,51 +62,57 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Card _customCard(Blog blog) {
-    return Card(
-      child: Padding(
-        padding: context.paddingNormal,
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: context.dynamicWidth(0.1),
-            ),
-            context.emptySizedWidthBoxNormal,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    blog.title,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  context.emptySizedHeightBoxLow,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        blog.user?.name ?? StringConstants.unknown,
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      context.emptySizedWidthBoxLow,
-                      Text(
-                        _viewModel.calculateDate(blog.date),
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                    ],
-                  ),
-                  context.emptySizedHeightBoxLow,
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children:
-                          blog.tags.map((e) => CustomTagView(text: e)).toList(),
-                    ),
-                  )
-                ],
+  InkWell _customCard(Blog blog, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        _viewModel.goToDetailPage(context, blog);
+      },
+      child: Card(
+        child: Padding(
+          padding: context.paddingNormal,
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: context.dynamicWidth(0.1),
               ),
-            ),
-          ],
+              context.emptySizedWidthBoxNormal,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      blog.title,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    context.emptySizedHeightBoxLow,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          blog.user?.name ?? StringConstants.unknown,
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                        context.emptySizedWidthBoxLow,
+                        Text(
+                          _viewModel.calculateDate(blog.date),
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ],
+                    ),
+                    context.emptySizedHeightBoxLow,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: blog.tags
+                            .map((e) => CustomTagView(text: e))
+                            .toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
