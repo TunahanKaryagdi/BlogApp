@@ -1,11 +1,13 @@
-import '../main/main_view.dart';
-import '../../utils/custom_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/active_user.dart';
 import '../../services/auth_service.dart';
+import '../../utils/custom_navigator.dart';
 import '../../utils/string_constants.dart';
+import '../main/main_view.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
@@ -25,13 +27,15 @@ class LoginViewModel extends ChangeNotifier {
     User? user = await _authService.login(email.text, password.text);
     if (user != null) {
       //Successful update active user
-      print("başarili ${user.email}");
+
       if (context.mounted) {
-        CustomNavigator.pushReplacementTo(context, MainView());
+        context
+            .read<ActiveUser>()
+            .logUser('name', 'surname', user.email ?? 'no email');
+        CustomNavigator.pushReplacementTo(context, const MainView());
       }
     } else {
       //unsuccessful show message
-      print("başarisiz");
     }
     changeLoading();
   }

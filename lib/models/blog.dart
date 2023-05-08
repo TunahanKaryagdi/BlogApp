@@ -26,7 +26,7 @@ class Blog {
       'description': description,
       'tags': tags,
       'date': date,
-      'userId': 'u1PN26Z2M7yf7JwYk04v'
+      'userId': 'F3yg2wN2gPEvVwxIoOUL'
     };
   }
 }

@@ -70,7 +70,9 @@ class LoginViewState extends State<LoginView> {
         ),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: const Text(StringConstants.signup),
+          widget: _viewModel.isLoading
+              ? const CircularProgressIndicator()
+              : const Text(StringConstants.signup),
           onClick: () {
             CustomNavigator.pushTo(context, const SignupView());
           },
