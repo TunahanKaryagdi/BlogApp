@@ -1,8 +1,9 @@
+import 'package:blog_app/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'user.dart';
 
-class Blog {
+class Blog implements Model {
   final String title;
   final String description;
   final List<String> tags;
@@ -11,6 +12,7 @@ class Blog {
 
   Blog(this.title, this.description, this.tags, this.date, {this.user});
 
+  @override
   factory Blog.fromSnapshot(DocumentSnapshot snapshot, {User? user}) {
     return Blog(
         snapshot['title'],
@@ -20,6 +22,7 @@ class Blog {
         user: user);
   }
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'title': title,

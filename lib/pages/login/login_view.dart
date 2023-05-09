@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/custom_navigator.dart';
 import '../../utils/string_constants.dart';
@@ -28,18 +29,22 @@ class LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: context.horizontalPaddingNormal,
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-              child: SizedBox(
-            height: context.height,
-            child: _titlesAndInputsColumn(context),
-          )),
-        ),
-      ),
-    );
+        body: ChangeNotifierProvider.value(
+      value: _viewModel,
+      builder: (context, child) {
+        return Padding(
+          padding: context.horizontalPaddingNormal,
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+                child: SizedBox(
+              height: context.height,
+              child: _titlesAndInputsColumn(context),
+            )),
+          ),
+        );
+      },
+    ));
   }
 
   Column _titlesAndInputsColumn(BuildContext context) {
@@ -61,7 +66,9 @@ class LoginViewState extends State<LoginView> {
             validator: _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: const Text(StringConstants.login),
+          widget: _viewModel.isLoading
+              ? const CircularProgressIndicator()
+              : const Text(StringConstants.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
               await _viewModel.login(context);
@@ -70,9 +77,7 @@ class LoginViewState extends State<LoginView> {
         ),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: _viewModel.isLoading
-              ? const CircularProgressIndicator()
-              : const Text(StringConstants.signup),
+          widget: const Text(StringConstants.signup),
           onClick: () {
             CustomNavigator.pushTo(context, const SignupView());
           },

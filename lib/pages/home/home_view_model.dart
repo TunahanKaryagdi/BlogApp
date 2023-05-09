@@ -1,3 +1,4 @@
+import 'package:blog_app/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -9,13 +10,16 @@ import '../../utils/firebase_collection_enum.dart';
 import '../detail/detail_view.dart';
 
 class HomeViewModel extends ChangeNotifier {
+  final FirestoreService _firestoreService = FirestoreService();
   List<Blog> blogList = [];
   bool isLoading = false;
 
   Future<void> getBlogs() async {
-    final usersSnapshot = await FirebaseCollections.users.reference.get();
-    final blogsSnapshot = await FirebaseCollections.blogs.reference.get();
+    final usersSnapshot = await _firestoreService
+        .getDocumentFromFirebase(FirebaseCollections.users);
 
+    final blogsSnapshot = await _firestoreService
+        .getDocumentFromFirebase(FirebaseCollections.blogs);
     final List<Blog> blogs = blogsSnapshot.docs.map((doc) {
       final userId = doc.get('userId');
 
@@ -46,6 +50,9 @@ class HomeViewModel extends ChangeNotifier {
   String calculateDate(Timestamp date) {
     DateTime temp = date.toDate();
     Duration difference = DateTime.now().difference(temp);
+    if (difference.inDays == 0) {
+      return "${difference.inMinutes} minutes ago";
+    }
     return '${difference.inDays.toString()} days ago';
   }
 

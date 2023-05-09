@@ -26,16 +26,17 @@ class LoginViewModel extends ChangeNotifier {
     changeLoading();
     User? user = await _authService.login(email.text, password.text);
     if (user != null) {
-      //Successful update active user
-
       if (context.mounted) {
         context
             .read<ActiveUser>()
-            .logUser('name', 'surname', user.email ?? 'no email');
+            .logUser(user.uid, 'name', 'surname', user.email ?? 'no email');
         CustomNavigator.pushReplacementTo(context, const MainView());
       }
     } else {
-      //unsuccessful show message
+      //error
+      if (context.mounted) {
+        // CustomNavigator.pushReplacementTo(context, const SignupView());
+      }
     }
     changeLoading();
   }

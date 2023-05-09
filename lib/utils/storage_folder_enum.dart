@@ -1,0 +1,1 @@
+enum StorageFolders { userImages, blogImages }

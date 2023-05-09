@@ -77,7 +77,9 @@ class _SignupViewState extends State<SignupView> {
             validator: _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: const Text(StringConstants.save),
+          widget: _viewModel.isLoading
+              ? const CircularProgressIndicator()
+              : const Text(StringConstants.save),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
               await _viewModel.signUp(context);
