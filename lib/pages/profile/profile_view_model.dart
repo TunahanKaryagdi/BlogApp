@@ -11,24 +11,37 @@ import '../../services/auth_service.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
-  TextEditingController email = TextEditingController();
-  final ImagePicker _imagePicker = ImagePicker();
-  XFile? profileImage;
   final StorageService _storageService = StorageService();
+
+  TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController surname = TextEditingController();
+
   bool isProfilePhotoLoading = false;
 
-  Future<void> logout(BuildContext context) async {
+  final ImagePicker _imagePicker = ImagePicker();
+  XFile? profileImage;
+
+  Future<bool> logout(BuildContext context) async {
     await _authService.logout();
 
     if (context.mounted) {
-      context.read<ActiveUser>().logUser(null, null, null, null);
-      CustomNavigator.pushReplacementTo(context, const LoginView());
+      setActiveUser(context);
+      return true;
     }
+    return false;
   }
 
   void fetchData(BuildContext context) {
-    email.text = context.read<ActiveUser>().email ?? 'bulunamadi';
+    ActiveUser activeUser = context.read<ActiveUser>();
+    email.text = activeUser.email ?? "";
+    name.text = activeUser.name ?? "";
+    surname.text = activeUser.surname ?? "";
     notifyListeners();
+  }
+
+  void setActiveUser(BuildContext context) {
+    context.read<ActiveUser>().setActiveUser(null, null, null, null);
   }
 
   Future<void> pickImage() async {

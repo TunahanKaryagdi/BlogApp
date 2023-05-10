@@ -23,11 +23,12 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.brown).copyWith(
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-          ),
-        ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            progressIndicatorTheme:
+                const ProgressIndicatorThemeData(color: Colors.white)),
         home: const LoginView(),
       ),
     );

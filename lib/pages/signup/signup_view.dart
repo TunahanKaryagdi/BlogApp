@@ -1,3 +1,5 @@
+import 'package:blog_app/pages/main/main_view.dart';
+import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -77,12 +79,15 @@ class _SignupViewState extends State<SignupView> {
             validator: _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: _viewModel.isLoading
+          widget: context.watch<SignupViewModel>().isLoading
               ? const CircularProgressIndicator()
               : const Text(StringConstants.save),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              await _viewModel.signUp(context);
+              bool isSignup = await _viewModel.signUp(context);
+              if (isSignup && context.mounted) {
+                CustomNavigator.pushReplacementTo(context, const MainView());
+              }
             }
           },
         )

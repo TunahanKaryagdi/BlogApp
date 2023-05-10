@@ -1,3 +1,4 @@
+import 'package:blog_app/pages/main/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -66,12 +67,15 @@ class LoginViewState extends State<LoginView> {
             validator: _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
-          widget: _viewModel.isLoading
+          widget: context.watch<LoginViewModel>().isLoading
               ? const CircularProgressIndicator()
               : const Text(StringConstants.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              await _viewModel.login(context);
+              bool isLogin = await _viewModel.login(context);
+              if (isLogin && context.mounted) {
+                CustomNavigator.pushReplacementTo(context, const MainView());
+              }
             }
           },
         ),

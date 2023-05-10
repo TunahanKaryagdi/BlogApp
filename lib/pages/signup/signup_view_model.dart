@@ -28,24 +28,31 @@ class SignupViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<void> signUp(BuildContext context) async {
+  Future<bool> signUp(BuildContext context) async {
     changeLoading();
     User? user = await _authService.signup(email.text, password.text);
     if (user == null) {
       //error message
-      return;
-    }
-    await _firestoreService.saveToFirebase(
-        UserModel.User(name.text, surname.text, email.text),
-        FirebaseCollections.users);
+      changeLoading();
+      return false;
+    } else {
+      UserModel.User newUser =
+          UserModel.User(name.text, surname.text, email.text);
+      await _firestoreService.saveToFirebase(
+          newUser, FirebaseCollections.users);
 
-    if (context.mounted) {
-      context
-          .read<ActiveUser>()
-          .logUser(user.uid, name.text, surname.text, email.text);
-      CustomNavigator.pushReplacementTo(context, const MainView());
+      if (context.mounted) {
+        setActiveUser(context, newUser);
+        changeLoading();
+      }
+      return true;
     }
-    changeLoading();
+  }
+
+  void setActiveUser(BuildContext context, UserModel.User user) {
+    context
+        .read<ActiveUser>()
+        .setActiveUser('adfa', user.name, user.surname, user.email);
   }
 
   void changeLoading() {

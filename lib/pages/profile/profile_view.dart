@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:blog_app/pages/login/login_view.dart';
 import 'package:blog_app/pages/profile/profile_view_model.dart';
+import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -37,8 +39,11 @@ class _ProfileViewState extends State<ProfileView> {
               Icons.logout,
               color: Theme.of(context).primaryColor,
             ),
-            onPressed: () {
-              _viewModel.logout(context);
+            onPressed: () async {
+              bool isLogout = await _viewModel.logout(context);
+              if (isLogout && context.mounted) {
+                CustomNavigator.pushReplacementTo(context, const LoginView());
+              }
             },
           )
         ],
@@ -50,7 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             context.watch<ProfileViewModel>().isProfilePhotoLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : InkWell(
                     onTap: () async {
                       await _viewModel.pickImage();
@@ -65,6 +70,18 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
             context.emptySizedHeightBoxNormal,
+            customTitle(context, StringConstants.name),
+            TextFormField(
+              controller: _viewModel.name,
+              decoration: _inputDecoration(context),
+            ),
+            context.emptySizedHeightBoxLow,
+            customTitle(context, StringConstants.surname),
+            TextFormField(
+              controller: _viewModel.surname,
+              decoration: _inputDecoration(context),
+            ),
+            context.emptySizedHeightBoxLow,
             customTitle(context, StringConstants.email),
             TextFormField(
               controller: _viewModel.email,
