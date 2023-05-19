@@ -1,5 +1,6 @@
 import 'package:blog_app/services/firestore_service.dart';
 import 'package:blog_app/utils/firebase_collection_enum.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -13,8 +14,10 @@ import '../../utils/string_constants.dart';
 class LoginViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final FirestoreService _firestoreService = FirestoreService();
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
   bool isLoading = false;
 
   String? textFieldValidator(String? value) {
@@ -28,9 +31,11 @@ class LoginViewModel extends ChangeNotifier {
     changeLoading();
     User? user = await _authService.login(email.text, password.text);
     if (user != null) {
-      UserModel.User activeUser = await getUserOnLogin(user.email!);
+      QueryDocumentSnapshot userSnapshot =
+          await getUserSnapshotOnLogin(user.email!);
       if (context.mounted) {
-        logActiveUser(context, activeUser);
+        setActiveUser(context, UserModel.User.fromSnapshot(userSnapshot),
+            userSnapshot.id);
         changeLoading();
       }
       return true;
@@ -45,18 +50,18 @@ class LoginViewModel extends ChangeNotifier {
   //active user ı güncelle
   //başka sayafaya git
 
-  Future<UserModel.User> getUserOnLogin(String email) async {
+  Future<QueryDocumentSnapshot<Object?>> getUserSnapshotOnLogin(
+      String email) async {
     final snapshots = await _firestoreService
-        .getDocumentFromFirebase(FirebaseCollections.users);
-    final snapshot = snapshots.docs.firstWhere((doc) => doc['email'] == email);
-    UserModel.User user = UserModel.User.fromSnapshot(snapshot);
-    return user;
+        .getDocumentsFromFirebase(FirebaseCollections.users);
+    final userSnapshot =
+        snapshots.docs.firstWhere((doc) => doc['email'] == email);
+    return userSnapshot;
   }
 
-  void logActiveUser(BuildContext context, UserModel.User user) {
-    context
-        .read<ActiveUser>()
-        .setActiveUser('adfa', user.name, user.surname, user.email);
+  void setActiveUser(BuildContext context, UserModel.User user, String docId) {
+    context.read<ActiveUser>().setActiveUser(docId, user.name, user.surname,
+        user.email, user.follow, user.follower, user.photo);
   }
 
   void changeLoading() {

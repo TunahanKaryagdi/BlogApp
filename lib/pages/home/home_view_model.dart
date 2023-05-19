@@ -16,10 +16,10 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<void> getBlogs() async {
     final usersSnapshot = await _firestoreService
-        .getDocumentFromFirebase(FirebaseCollections.users);
+        .getDocumentsFromFirebase(FirebaseCollections.users);
 
     final blogsSnapshot = await _firestoreService
-        .getDocumentFromFirebase(FirebaseCollections.blogs);
+        .getDocumentsFromFirebase(FirebaseCollections.blogs);
     final List<Blog> blogs = blogsSnapshot.docs.map((doc) {
       final userId = doc.get('userId');
 
@@ -51,7 +51,7 @@ class HomeViewModel extends ChangeNotifier {
     DateTime temp = date.toDate();
     Duration difference = DateTime.now().difference(temp);
     if (difference.inDays == 0) {
-      return "${difference.inMinutes} minutes ago";
+      return "${difference.inHours} hours ago";
     }
     return '${difference.inDays.toString()} days ago';
   }

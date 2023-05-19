@@ -55,7 +55,7 @@ class _DetailViewState extends State<DetailView> {
     return Stack(
       children: [
         Image.network(
-          'https://avatars.githubusercontent.com/u/92988984?s=400&v=4',
+          widget.blog.photo,
           height: context.dynamicHeight(0.3),
           width: double.infinity,
         ),
@@ -63,7 +63,7 @@ class _DetailViewState extends State<DetailView> {
           onTap: () {
             CustomNavigator.pop(context);
           },
-          child: Icon(Icons.arrow_back),
+          child: const Icon(Icons.arrow_back),
         )
       ],
     );

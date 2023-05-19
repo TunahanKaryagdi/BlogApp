@@ -31,9 +31,14 @@ class _MainViewState extends State<MainView> {
             _currentIndex = value;
           });
         },
+        selectedItemColor: Theme.of(context).primaryColor,
+        unselectedItemColor: Colors.grey,
+      
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: StringConstants.home),
+            icon: Icon(Icons.home),
+            label: StringConstants.home,
+          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.add), label: StringConstants.add),
           BottomNavigationBarItem(

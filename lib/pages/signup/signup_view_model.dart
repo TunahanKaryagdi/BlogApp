@@ -7,10 +7,8 @@ import '../../models/active_user.dart';
 import '../../models/user.dart' as UserModel;
 import '../../services/auth_service.dart';
 import '../../services/firestore_service.dart';
-import '../../utils/custom_navigator.dart';
 import '../../utils/firebase_collection_enum.dart';
 import '../../utils/string_constants.dart';
-import '../main/main_view.dart';
 
 class SignupViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
@@ -37,22 +35,21 @@ class SignupViewModel extends ChangeNotifier {
       return false;
     } else {
       UserModel.User newUser =
-          UserModel.User(name.text, surname.text, email.text);
-      await _firestoreService.saveToFirebase(
+          UserModel.User(name.text, surname.text, email.text, 0, 0);
+      String docId = await _firestoreService.saveToFirebase(
           newUser, FirebaseCollections.users);
 
       if (context.mounted) {
-        setActiveUser(context, newUser);
+        setActiveUser(context, newUser, docId);
         changeLoading();
       }
       return true;
     }
   }
 
-  void setActiveUser(BuildContext context, UserModel.User user) {
-    context
-        .read<ActiveUser>()
-        .setActiveUser('adfa', user.name, user.surname, user.email);
+  void setActiveUser(BuildContext context, UserModel.User user, String docId) {
+    context.read<ActiveUser>().setActiveUser(docId, user.name, user.surname,
+        user.email, user.follow, user.follower, user.photo);
   }
 
   void changeLoading() {

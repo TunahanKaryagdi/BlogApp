@@ -21,4 +21,7 @@ class StringConstants {
   static const String unknown = "Unknown";
   static const String typeSth = "Type Something";
   static const String add = "Add";
+
+  static const String follow = "Follow";
+  static const String follower = "Follower";
 }

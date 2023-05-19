@@ -58,7 +58,9 @@ class _HomeViewState extends State<HomeView> {
 
   Center _loadingView() {
     return const Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: Colors.brown,
+      ),
     );
   }
 
@@ -74,6 +76,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               CircleAvatar(
                 radius: context.dynamicWidth(0.1),
+                backgroundImage: Image.network(blog.photo).image,
               ),
               context.emptySizedWidthBoxNormal,
               Expanded(

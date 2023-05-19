@@ -5,12 +5,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StorageService {
-  Future<String> uploadImage(XFile file, StorageFolders folder) async {
-    final Reference storageRef = FirebaseStorage.instance
-        .ref()
-        .child(folder.name)
-        .child(
-            "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}");
+  Future<String> uploadImage(
+      XFile file, StorageFolders folder, String id) async {
+    final Reference storageRef =
+        FirebaseStorage.instance.ref().child(folder.name).child(id);
     //son child id olacak
     UploadTask uploadTask = storageRef.putFile(File(file.path));
     TaskSnapshot taskSnapshot = await uploadTask;

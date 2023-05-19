@@ -23,8 +23,12 @@ class AddViewModel extends ChangeNotifier {
 
   Future<void> saveBlogToFirebase() async {
     changeLoading();
-    Blog newBlog = Blog(titleText.text, descriptionText.text, tags,
-        Timestamp.fromDate(DateTime.now()));
+    Blog newBlog = Blog(
+        titleText.text,
+        descriptionText.text,
+        tags,
+        Timestamp.fromDate(DateTime.now()),
+        'https://avatars.githubusercontent.com/u/92988984?s=400&v=4');
     //await FirebaseCollections.blogs.reference.doc().set(newBlog.toMap());
     await _firestoreService.saveToFirebase(newBlog, FirebaseCollections.blogs);
     changeLoading();

@@ -16,3 +16,10 @@ Text customTitle(BuildContext context, String text) {
     style: Theme.of(context).textTheme.titleLarge,
   );
 }
+
+Text customNormalText(BuildContext context, String text) {
+  return Text(
+    text,
+    style: Theme.of(context).textTheme.labelLarge,
+  );
+}
