@@ -15,9 +15,9 @@ class FirestoreService<T extends Model> {
     return snapshots;
   }
 
-  Future<void> getDocumentById(
+  Future<DocumentSnapshot> getDocumentById(
       FirebaseCollections instance, String docId) async {
-    await instance.reference.doc(docId).get();
+    return await instance.reference.doc(docId).get();
   }
 
   Future<void> updateDocument(

@@ -1,4 +1,3 @@
-import 'package:blog_app/services/auth_service.dart';
 import 'package:blog_app/services/firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +23,11 @@ class AddViewModel extends ChangeNotifier {
   Future<void> saveBlogToFirebase() async {
     changeLoading();
     Blog newBlog = Blog(
+        null,
         titleText.text,
         descriptionText.text,
         tags,
+        [],
         Timestamp.fromDate(DateTime.now()),
         'https://avatars.githubusercontent.com/u/92988984?s=400&v=4');
     //await FirebaseCollections.blogs.reference.doc().set(newBlog.toMap());

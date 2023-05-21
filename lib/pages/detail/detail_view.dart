@@ -1,3 +1,4 @@
+import 'package:blog_app/pages/detail/detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
@@ -15,8 +16,13 @@ class DetailView extends StatefulWidget {
 }
 
 class _DetailViewState extends State<DetailView> {
-  final String tempData =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+  late final DetailViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = DetailViewModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +65,23 @@ class _DetailViewState extends State<DetailView> {
           height: context.dynamicHeight(0.3),
           width: double.infinity,
         ),
-        InkWell(
-          onTap: () {
-            CustomNavigator.pop(context);
-          },
-          child: const Icon(Icons.arrow_back),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                CustomNavigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back),
+            ),
+            InkWell(
+              onTap: () {
+                _viewModel.onClickedLikeButton(
+                    widget.blog, _viewModel.getActiveUser(context).id ?? '');
+              },
+              child: const Icon(Icons.heart_broken_sharp),
+            )
+          ],
         )
       ],
     );
@@ -90,6 +108,7 @@ class _DetailViewState extends State<DetailView> {
                 ),
               ],
             ),
+            ElevatedButton(onPressed: () {}, child: Text("asd"))
           ],
         ),
       ),
