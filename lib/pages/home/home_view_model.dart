@@ -51,6 +51,9 @@ class HomeViewModel extends ChangeNotifier {
     DateTime temp = date.toDate();
     Duration difference = DateTime.now().difference(temp);
     if (difference.inDays == 0) {
+      if (difference.inHours == 0) {
+        return "${difference.inMinutes} minutes ago";
+      }
       return "${difference.inHours} hours ago";
     }
     return '${difference.inDays.toString()} days ago';

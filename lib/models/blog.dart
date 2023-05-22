@@ -38,7 +38,7 @@ class Blog implements Model {
       'tags': tags,
       'like': like,
       'date': date,
-      'photo': 'https://avatars.githubusercontent.com/u/92988984?s=400&v=4',
+      'photo': photo,
       'userId': 'F3yg2wN2gPEvVwxIoOUL'
     };
   }

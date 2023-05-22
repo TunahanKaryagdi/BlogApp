@@ -1,6 +1,7 @@
 import 'package:blog_app/pages/detail/detail_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/blog.dart';
 import '../../utils/custom_navigator.dart';
@@ -22,31 +23,39 @@ class _DetailViewState extends State<DetailView> {
   void initState() {
     super.initState();
     _viewModel = DetailViewModel();
+    _viewModel.activeBlog = widget.blog;
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: context.paddingLow,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _stackImageAndBackButton(context),
-            context.emptySizedHeightBoxLow,
-            customPageTitle(context, widget.blog.title),
-            context.emptySizedHeightBoxLow,
-            _userCard(),
-            context.emptySizedHeightBoxLow,
-            Row(
-              children:
-                  widget.blog.tags.map((e) => CustomTagView(text: e)).toList(),
-            ),
-            context.emptySizedHeightBoxLow,
-            _description(context, widget.blog.description),
-          ]),
+        body: ChangeNotifierProvider.value(
+          value: _viewModel,
+          builder: (context, child) => 
+          _body(context),
         ),
       ),
+    );
+  }
+
+  Padding _body(BuildContext context) {
+    return Padding(
+      padding: context.paddingLow,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _stackImageAndBackButton(context),
+        context.emptySizedHeightBoxLow,
+        customPageTitle(context, widget.blog.title),
+        context.emptySizedHeightBoxLow,
+        _userCard(),
+        context.emptySizedHeightBoxLow,
+        Row(
+          children:
+              widget.blog.tags.map((e) => CustomTagView(text: e)).toList(),
+        ),
+        context.emptySizedHeightBoxLow,
+        _description(context, widget.blog.description),
+      ]),
     );
   }
 
@@ -75,11 +84,15 @@ class _DetailViewState extends State<DetailView> {
               child: const Icon(Icons.arrow_back),
             ),
             InkWell(
-              onTap: () {
-                _viewModel.onClickedLikeButton(
-                    widget.blog, _viewModel.getActiveUser(context).id ?? '');
+              onTap: () async {
+                await _viewModel.onClickedLikeButton(_viewModel.activeBlog!,
+                    _viewModel.getActiveUser(context).id ?? '');
               },
-              child: const Icon(Icons.heart_broken_sharp),
+              child: _viewModel.isLiked(
+                      context.watch<DetailViewModel>().activeBlog!,
+                      _viewModel.getActiveUser(context).id!)
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border),
             )
           ],
         )
@@ -108,7 +121,6 @@ class _DetailViewState extends State<DetailView> {
                 ),
               ],
             ),
-            ElevatedButton(onPressed: () {}, child: Text("asd"))
           ],
         ),
       ),
