@@ -1,9 +1,9 @@
+import 'package:blog_app/models/active_user.dart';
+import 'package:blog_app/services/user_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
-import 'package:provider/provider.dart';
 
-import '../../models/active_user.dart';
 import '../../models/user.dart' as UserModel;
 import '../../services/auth_service.dart';
 import '../../services/firestore_service.dart';
@@ -39,21 +39,22 @@ class SignupViewModel extends ChangeNotifier {
       String docId = await _firestoreService.saveToFirebase(
           newUser, FirebaseCollections.users);
 
-      if (context.mounted) {
-        setActiveUser(context, newUser, docId);
-        changeLoading();
-      }
+      UserManager.setUserData(
+          generateNewActiveUser(docId, name.text, surname.text, email.text));
+
+      changeLoading();
+
       return true;
     }
-  }
-
-  void setActiveUser(BuildContext context, UserModel.User user, String docId) {
-    context.read<ActiveUser>().setActiveUser(docId, user.name, user.surname,
-        user.email, user.follow, user.follower, user.photo);
   }
 
   void changeLoading() {
     isLoading = !isLoading;
     notifyListeners();
+  }
+
+  ActiveUser generateNewActiveUser(
+      String id, String name, String surname, String email) {
+    return ActiveUser(id, name, surname, email, 0, 0, '');
   }
 }

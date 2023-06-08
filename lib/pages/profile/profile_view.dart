@@ -9,7 +9,6 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/string_constants.dart';
-import '../../widgets/custom_button.dart';
 import '../../widgets/custom_title.dart';
 
 class ProfileView extends StatefulWidget {
@@ -26,7 +25,7 @@ class _ProfileViewState extends State<ProfileView> {
   void initState() {
     super.initState();
     _viewModel = ProfileViewModel();
-    _viewModel.fetchData(context);
+    _viewModel.fetchData();
   }
 
   @override
@@ -38,23 +37,32 @@ class _ProfileViewState extends State<ProfileView> {
       ),
       body: ChangeNotifierProvider.value(
         value: _viewModel,
-        builder: (context, child) => Padding(
-          padding: context.paddingLow,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _avatarAndFollower(context, _viewModel.activeUser.follow ?? 0,
-                _viewModel.activeUser.follower ?? 0),
-            context.emptySizedHeightBoxNormal,
-            _keyAndValue(
-                StringConstants.name, _viewModel.activeUser.name ?? ""),
-            _divider(),
-            _keyAndValue(
-                StringConstants.surname, _viewModel.activeUser.surname ?? ""),
-            _divider(),
-            _keyAndValue(
-                StringConstants.email, _viewModel.activeUser.email ?? ""),
-          ]),
-        ),
+        builder: (context, child) => context.watch<ProfileViewModel>().isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.brown,
+                ),
+              )
+            : Padding(
+                padding: context.paddingLow,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _avatarAndFollower(
+                          context,
+                          _viewModel.activeUser?.follow ?? 0,
+                          _viewModel.activeUser?.follower ?? 0),
+                      context.emptySizedHeightBoxNormal,
+                      _keyAndValue(StringConstants.name,
+                          _viewModel.activeUser?.name ?? ''),
+                      _divider(),
+                      _keyAndValue(StringConstants.surname,
+                          _viewModel.activeUser?.surname ?? ''),
+                      _divider(),
+                      _keyAndValue(StringConstants.email,
+                          _viewModel.activeUser?.email ?? ''),
+                    ]),
+              ),
       ),
     );
   }
@@ -66,7 +74,7 @@ class _ProfileViewState extends State<ProfileView> {
         color: Theme.of(context).primaryColor,
       ),
       onPressed: () async {
-        bool isLogout = await _viewModel.logout(context);
+        bool isLogout = await _viewModel.logout();
         if (isLogout && context.mounted) {
           CustomNavigator.pushReplacementTo(context, const LoginView());
         }
@@ -96,7 +104,7 @@ class _ProfileViewState extends State<ProfileView> {
   InkWell _circularAvatar(BuildContext context) {
     return InkWell(
       onTap: () async {
-        await _viewModel.pickImage(context);
+        //await _viewModel.pickImage(context);
       },
       child: CircleAvatar(
         backgroundImage: _circularAvatarBackground(context),

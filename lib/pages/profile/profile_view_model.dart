@@ -2,11 +2,11 @@ import 'package:blog_app/models/active_user.dart';
 import 'package:blog_app/models/user.dart';
 import 'package:blog_app/services/firestore_service.dart';
 import 'package:blog_app/services/storage_service.dart';
+import 'package:blog_app/services/user_manager.dart';
 import 'package:blog_app/utils/firebase_collection_enum.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 
 import '../../services/auth_service.dart';
 
@@ -15,54 +15,49 @@ class ProfileViewModel extends ChangeNotifier {
   final StorageService _storageService = StorageService();
   final FirestoreService _firestoreService = FirestoreService<User>();
 
+  final ImagePicker _imagePicker = ImagePicker();
   String? imageUrL;
+  XFile? profileImage;
 
   bool isProfilePhotoLoading = false;
+  bool isLoading = false;
 
-  final ImagePicker _imagePicker = ImagePicker();
-  XFile? profileImage;
-  ActiveUser activeUser = ActiveUser();
+  ActiveUser? activeUser;
 
-  Future<bool> logout(BuildContext context) async {
+  Future<bool> logout() async {
     await _authService.logout();
 
-    if (context.mounted) {
-      setActiveUserNull(context);
+    await UserManager.deleteUserData();
+
+    activeUser = UserManager.getUserData();
+
+    if (activeUser == null) {
       return true;
     }
     return false;
   }
 
-  void fetchData(BuildContext context) {
-    activeUser = getActiveUser(context);
-    imageUrL = activeUser.photoUrl;
-    notifyListeners();
+  Future<void> fetchData() async {
+    changeLoading();
+    activeUser = UserManager.getUserData();
+    changeLoading();
   }
 
   Future<void> pickImage(BuildContext context) async {
     profileImage = await _imagePicker.pickImage(source: ImageSource.camera);
     if (profileImage != null) {
-      changeLoading();
+      changePhotoLoading();
       String url = await _storageService.uploadImage(profileImage!,
-          StorageFolders.userImages, activeUser.email ?? "no email");
+          StorageFolders.userImages, activeUser?.email ?? "no email");
 
       if (context.mounted) {
-        await updatePhotoUrl(getActiveUser(context), url);
+        //todo
+        //await updatePhotoUrl(getActiveUser(context), url);
       }
 
-      changeLoading();
+      changePhotoLoading();
       notifyListeners();
     } else {}
-  }
-
-  void setActiveUserNull(BuildContext context) {
-    context
-        .read<ActiveUser>()
-        .setActiveUser(null, null, null, null, null, null, null);
-  }
-
-  ActiveUser getActiveUser(BuildContext context) {
-    return context.read<ActiveUser>();
   }
 
   Future<void> updatePhotoUrl(
@@ -76,8 +71,13 @@ class ProfileViewModel extends ChangeNotifier {
     );
   }
 
-  void changeLoading() {
+  void changePhotoLoading() {
     isProfilePhotoLoading = !isProfilePhotoLoading;
+    notifyListeners();
+  }
+
+  void changeLoading() {
+    isLoading = !isLoading;
     notifyListeners();
   }
 }

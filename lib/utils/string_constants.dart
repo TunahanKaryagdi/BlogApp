@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 @immutable
 class StringConstants {
   const StringConstants._();
+
+  static const String appName = "Blog App";
+
   static const String helloText = 'Hello';
   static const String email = 'Email';
   static const String login = 'Login';
@@ -28,4 +31,7 @@ class StringConstants {
 
   static const String defaultImage =
       'https://avatars.githubusercontent.com/u/92988984?s=400&v=4';
+
+  static const String userBoxName = "activeUser";
+  static const String userKey = 'userKey';
 }

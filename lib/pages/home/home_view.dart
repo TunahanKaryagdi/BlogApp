@@ -1,3 +1,4 @@
+import 'package:blog_app/widgets/custom_circular_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _HomeViewState extends State<HomeView> {
             title: customPageTitle(context, StringConstants.home),
           ),
           body: context.watch<HomeViewModel>().isLoading
-              ? _loadingView()
+              ? customCircularBar(context)
               : Padding(
                   padding: context.paddingLow,
                   child: ListView.builder(
@@ -53,14 +54,6 @@ class _HomeViewState extends State<HomeView> {
                 ),
         );
       },
-    );
-  }
-
-  Center _loadingView() {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.brown,
-      ),
     );
   }
 

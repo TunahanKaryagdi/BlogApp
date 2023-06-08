@@ -1,4 +1,5 @@
 import 'package:blog_app/pages/main/main_view.dart';
+import 'package:blog_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -55,16 +56,11 @@ class LoginViewState extends State<LoginView> {
       children: [
         customPageTitle(context, StringConstants.helloText),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.email),
-        TextFormField(
-          controller: _viewModel.email,
-          validator: _viewModel.textFieldValidator,
-        ),
+        customTextField(StringConstants.email, _viewModel.email,
+            Icons.email_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.password),
-        TextFormField(
-            controller: _viewModel.password,
-            validator: _viewModel.textFieldValidator),
+        customTextField(StringConstants.password, _viewModel.password,
+            Icons.lock_outline, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<LoginViewModel>().isLoading

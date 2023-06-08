@@ -1,13 +1,17 @@
+import 'package:blog_app/pages/login/login_view.dart';
+import 'package:blog_app/pages/splash/splash_view.dart';
+import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/utils/string_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'models/active_user.dart';
-import 'pages/login/login_view.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await UserManager.initialize();
   await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -17,10 +21,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ActiveUser(),
-      lazy: true,
+      create: (context) {},
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: StringConstants.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.brown).copyWith(
             appBarTheme: const AppBarTheme(
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
             ),
             progressIndicatorTheme:
                 const ProgressIndicatorThemeData(color: Colors.white)),
-        home: const LoginView(),
+        home: const SplashView(),
       ),
     );
   }

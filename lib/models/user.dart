@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/firestore_service.dart';
-import 'active_user.dart';
 
 class User implements Model {
   final String name;
+
   final String surname;
+
   final String email;
+
   final int follow;
+
   final int follower;
+
   String? photo;
 
   User(this.name, this.surname, this.email, this.follow, this.follower,
@@ -30,15 +34,5 @@ class User implements Model {
       'follow': follow,
       'follower': follower
     };
-  }
-
-  factory User.fromActiveUser(ActiveUser activeUser) {
-    return User(
-        activeUser.name ?? '',
-        activeUser.surname ?? '',
-        activeUser.email ?? '',
-        activeUser.follow ?? 0,
-        activeUser.follower ?? 0,
-        photo: activeUser.photoUrl);
   }
 }

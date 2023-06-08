@@ -1,5 +1,6 @@
 import 'package:blog_app/pages/main/main_view.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
+import 'package:blog_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -56,27 +57,17 @@ class _SignupViewState extends State<SignupView> {
       children: [
         customPageTitle(context, StringConstants.signup),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.name),
-        TextFormField(
-          controller: _viewModel.name,
-          validator: _viewModel.textFieldValidator,
-        ),
+        customTextField(StringConstants.name, _viewModel.name,
+            Icons.account_box_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.surname),
-        TextFormField(
-          controller: _viewModel.surname,
-          validator: _viewModel.textFieldValidator,
-        ),
+        customTextField(StringConstants.surname, _viewModel.surname,
+            Icons.account_box_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.email),
-        TextFormField(
-            controller: _viewModel.email,
-            validator: _viewModel.textFieldValidator),
+        customTextField(StringConstants.email, _viewModel.email,
+            Icons.email_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTitle(context, StringConstants.password),
-        TextFormField(
-            controller: _viewModel.password,
-            validator: _viewModel.textFieldValidator),
+        customTextField(StringConstants.password, _viewModel.password,
+            Icons.lock_outline, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<SignupViewModel>().isLoading
