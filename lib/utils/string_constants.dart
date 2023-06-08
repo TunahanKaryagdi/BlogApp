@@ -6,6 +6,16 @@ class StringConstants {
 
   static const String appName = "Blog App";
 
+//Routes
+  static const String splashRoute = "/splash";
+  static const String loginRoute = "/login";
+  static const String signupRoute = "/signup";
+  static const String mainRoute = "/main";
+  static const String homeRoute = "/home";
+  static const String detailRoute = "/detail";
+  static const String addRoute = "/add";
+  static const String profileRoute = "/profile";
+
   static const String helloText = 'Hello';
   static const String email = 'Email';
   static const String login = 'Login';

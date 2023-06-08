@@ -1,4 +1,3 @@
-import 'package:blog_app/pages/main/main_view.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:blog_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +76,8 @@ class _SignupViewState extends State<SignupView> {
             if (_formKey.currentState?.validate() ?? false) {
               bool isSignup = await _viewModel.signUp(context);
               if (isSignup && context.mounted) {
-                CustomNavigator.pushReplacementTo(context, const MainView());
+                CustomNavigator.pushAndRemoveUntil(
+                    context, StringConstants.mainRoute);
               }
             }
           },

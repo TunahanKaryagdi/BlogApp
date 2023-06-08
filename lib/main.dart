@@ -1,10 +1,14 @@
+import 'package:blog_app/pages/detail/detail_view.dart';
 import 'package:blog_app/pages/login/login_view.dart';
 import 'package:blog_app/pages/splash/splash_view.dart';
 import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/utils/routes.dart';
 import 'package:blog_app/utils/string_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'models/blog.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +28,17 @@ class MyApp extends StatelessWidget {
       create: (context) {},
       child: MaterialApp(
         title: StringConstants.appName,
+        routes: customRoutes,
+        onGenerateRoute: (settings) {
+          if (settings.name == StringConstants.detailRoute) {
+            final args = settings.arguments as Blog;
+            return PageRouteBuilder(
+              pageBuilder: (_, __, ___) => DetailView(blog: args),
+            );
+          }
+          return null;
+        },
+        initialRoute: StringConstants.splashRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.brown).copyWith(
             appBarTheme: const AppBarTheme(

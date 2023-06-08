@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
 class CustomNavigator {
-  static void pushTo(BuildContext context, Widget toScreen) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => toScreen,
-    ));
+  static void pushTo(BuildContext context, String route) {
+    Navigator.of(context).pushNamed(route);
   }
 
-  static void pushReplacementTo(BuildContext context, Widget toScreen) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-      builder: (context) => toScreen,
-    ));
+  static void pushToWithArgument(
+      BuildContext context, String route, dynamic argument) {
+    Navigator.of(context).pushNamed(route, arguments: argument);
+  }
+
+  static void pushReplacementTo(BuildContext context, String route) {
+    Navigator.of(context).pushReplacementNamed(route);
+  }
+
+  static void pushAndRemoveUntil(BuildContext context, String route) {
+    Navigator.of(context).pushNamedAndRemoveUntil(route, (route) => false);
   }
 
   static void pop(BuildContext context) {

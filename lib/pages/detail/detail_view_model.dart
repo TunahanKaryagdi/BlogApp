@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:blog_app/models/active_user.dart';
 import 'package:blog_app/services/firestore_service.dart';
+import 'package:blog_app/services/user_manager.dart';
 import 'package:blog_app/utils/firebase_collection_enum.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +27,8 @@ class DetailViewModel extends ChangeNotifier {
     }
   }
 
-  ActiveUser getActiveUser(BuildContext context) {
-    return context.read<ActiveUser>();
+  ActiveUser? getActiveUser() {
+    return UserManager.getUserData();
   }
 
   Future<void> likeBlog(Blog blog, String userId) async {
@@ -44,8 +43,6 @@ class DetailViewModel extends ChangeNotifier {
   Future<void> unLikeBlog(Blog blog, String userId) async {
     List<String> newArray = blog.like;
     newArray.remove(userId);
-    List<String> newwArray = [];
-    newwArray.add(userId);
 
     await _firestoreService.updateDocument(
         FirebaseCollections.blogs, blog.id!, {'like': newArray});

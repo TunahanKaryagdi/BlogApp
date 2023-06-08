@@ -1,4 +1,5 @@
 import 'package:blog_app/services/firestore_service.dart';
+import 'package:blog_app/utils/string_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -60,6 +61,7 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void goToDetailPage(BuildContext context, Blog blog) {
-    CustomNavigator.pushTo(context, DetailView(blog: blog));
+    CustomNavigator.pushToWithArgument(
+        context, StringConstants.detailRoute, blog);
   }
 }

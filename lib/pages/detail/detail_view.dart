@@ -10,6 +10,7 @@ import '../../widgets/custom_title.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({super.key, required this.blog});
+
   final Blog blog;
 
   @override
@@ -32,8 +33,7 @@ class _DetailViewState extends State<DetailView> {
       child: Scaffold(
         body: ChangeNotifierProvider.value(
           value: _viewModel,
-          builder: (context, child) => 
-          _body(context),
+          builder: (context, child) => _body(context),
         ),
       ),
     );
@@ -86,11 +86,11 @@ class _DetailViewState extends State<DetailView> {
             InkWell(
               onTap: () async {
                 await _viewModel.onClickedLikeButton(_viewModel.activeBlog!,
-                    _viewModel.getActiveUser(context).id ?? '');
+                    _viewModel.getActiveUser()?.id ?? '');
               },
               child: _viewModel.isLiked(
                       context.watch<DetailViewModel>().activeBlog!,
-                      _viewModel.getActiveUser(context).id!)
+                      _viewModel.getActiveUser()?.id ?? '')
                   ? const Icon(Icons.favorite)
                   : const Icon(Icons.favorite_border),
             )

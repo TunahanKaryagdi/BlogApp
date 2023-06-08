@@ -1,7 +1,4 @@
-import 'package:blog_app/pages/login/login_view.dart';
-import 'package:blog_app/pages/main/main_view.dart';
 import 'package:blog_app/pages/splash/splash_view_model.dart';
-import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:blog_app/widgets/custom_title.dart';
 
 import 'package:flutter/material.dart';

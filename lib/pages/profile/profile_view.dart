@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:blog_app/pages/login/login_view.dart';
 import 'package:blog_app/pages/profile/profile_view_model.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +75,8 @@ class _ProfileViewState extends State<ProfileView> {
       onPressed: () async {
         bool isLogout = await _viewModel.logout();
         if (isLogout && context.mounted) {
-          CustomNavigator.pushReplacementTo(context, const LoginView());
+          CustomNavigator.pushReplacementTo(
+              context, StringConstants.loginRoute);
         }
       },
     );

@@ -1,4 +1,3 @@
-import 'package:blog_app/pages/main/main_view.dart';
 import 'package:blog_app/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -8,7 +7,6 @@ import '../../utils/custom_navigator.dart';
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_title.dart';
-import '../signup/signup_view.dart';
 import 'login_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -70,7 +68,8 @@ class LoginViewState extends State<LoginView> {
             if (_formKey.currentState?.validate() ?? false) {
               bool isLogin = await _viewModel.login(context);
               if (isLogin && context.mounted) {
-                CustomNavigator.pushReplacementTo(context, const MainView());
+                CustomNavigator.pushAndRemoveUntil(
+                    context, StringConstants.mainRoute);
               }
             }
           },
@@ -79,7 +78,7 @@ class LoginViewState extends State<LoginView> {
         CustomButton(
           widget: const Text(StringConstants.signup),
           onClick: () {
-            CustomNavigator.pushTo(context, const SignupView());
+            CustomNavigator.pushTo(context, StringConstants.signupRoute);
           },
         ),
       ],
