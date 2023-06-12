@@ -1,7 +1,5 @@
-import 'package:blog_app/services/firestore_service.dart';
 import 'package:blog_app/services/user_manager.dart';
-import 'package:blog_app/utils/firebase_collection_enum.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:blog_app/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -12,7 +10,7 @@ import '../../utils/string_constants.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
-  final FirestoreService _firestoreService = FirestoreService();
+  final UserService _userService = UserService();
 
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -30,21 +28,20 @@ class LoginViewModel extends ChangeNotifier {
     changeLoading();
     User? user = await _authService.login(email.text, password.text);
     if (user != null) {
-      QueryDocumentSnapshot userSnapshot =
-          await getUserSnapshotOnLogin(user.email!);
+      final String id = await _userService.getUserIdByEmail(user.email!);
+
+      final userModel = await _userService.getUserById(id);
 
       ActiveUser activeUser = ActiveUser(
-          userSnapshot.id,
-          userSnapshot['name'],
-          userSnapshot['surname'],
-          userSnapshot['email'],
-          userSnapshot['follow'],
-          userSnapshot['follower'],
-          userSnapshot['photo']);
+          id,
+          userModel.name,
+          userModel.surname,
+          userModel.email,
+          userModel.follow,
+          userModel.follower,
+          userModel.photo ?? '');
 
       await UserManager.setUserData(activeUser);
-      // await Hive.openBox(StringConstants.userBoxName);
-      // Hive.box(StringConstants.userBoxName).add(activeUser);
 
       changeLoading();
 
@@ -53,15 +50,6 @@ class LoginViewModel extends ChangeNotifier {
       changeLoading();
       return false;
     }
-  }
-
-  Future<QueryDocumentSnapshot<Object?>> getUserSnapshotOnLogin(
-      String email) async {
-    final snapshots = await _firestoreService
-        .getDocumentsFromFirebase(FirebaseCollections.users);
-    final userSnapshot =
-        snapshots.docs.firstWhere((doc) => doc['email'] == email);
-    return userSnapshot;
   }
 
   void changeLoading() {

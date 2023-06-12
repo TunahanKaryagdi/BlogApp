@@ -113,10 +113,10 @@ class _DetailViewState extends State<DetailView> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                customTitle(context, widget.blog.user?.name ?? "unknown"),
+                customTitle(context, widget.blog.user.name),
                 context.emptySizedHeightBoxLow,
                 Text(
-                  widget.blog.user?.email ?? "unknown",
+                  widget.blog.user.email,
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],

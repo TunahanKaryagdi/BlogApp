@@ -1,8 +1,7 @@
+import 'package:blog_app/models/active_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../services/firestore_service.dart';
-
-class User implements Model {
+class User {
   final String name;
 
   final String surname;
@@ -18,14 +17,12 @@ class User implements Model {
   User(this.name, this.surname, this.email, this.follow, this.follower,
       {this.photo});
 
-  @override
   factory User.fromSnapshot(DocumentSnapshot snapshot) {
     return User(snapshot['name'], snapshot['surname'], snapshot['email'],
         snapshot["follow"], snapshot["follower"],
         photo: snapshot['photo']);
   }
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -34,5 +31,10 @@ class User implements Model {
       'follow': follow,
       'follower': follower
     };
+  }
+
+  factory User.fromActiveUser(ActiveUser activeUser) {
+    return User(activeUser.name, activeUser.surname, activeUser.email,
+        activeUser.follow, activeUser.follower);
   }
 }

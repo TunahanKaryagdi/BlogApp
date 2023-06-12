@@ -1,5 +1,4 @@
 import 'package:blog_app/pages/detail/detail_view.dart';
-import 'package:blog_app/pages/login/login_view.dart';
 import 'package:blog_app/pages/splash/splash_view.dart';
 import 'package:blog_app/services/user_manager.dart';
 import 'package:blog_app/utils/routes.dart';

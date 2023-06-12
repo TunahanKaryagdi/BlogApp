@@ -85,7 +85,7 @@ class _HomeViewState extends State<HomeView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          blog.user?.name ?? StringConstants.unknown,
+                          blog.user.name,
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                         context.emptySizedWidthBoxLow,

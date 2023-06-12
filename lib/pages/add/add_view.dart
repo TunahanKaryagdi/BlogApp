@@ -79,7 +79,7 @@ class _AddViewState extends State<AddView> {
             : const Text(StringConstants.save),
         onClick: () {
           if (_formKey.currentState?.validate() ?? false) {
-            _viewModel.saveBlogToFirebase();
+            _viewModel.saveBlog();
           }
         });
   }

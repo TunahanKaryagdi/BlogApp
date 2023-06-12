@@ -1,9 +1,7 @@
 import 'package:blog_app/models/active_user.dart';
-import 'package:blog_app/models/user.dart';
-import 'package:blog_app/services/firestore_service.dart';
 import 'package:blog_app/services/storage_service.dart';
 import 'package:blog_app/services/user_manager.dart';
-import 'package:blog_app/utils/firebase_collection_enum.dart';
+import 'package:blog_app/services/user_service.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,7 +11,7 @@ import '../../services/auth_service.dart';
 class ProfileViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
   final StorageService _storageService = StorageService();
-  final FirestoreService _firestoreService = FirestoreService<User>();
+  final UserService _userService = UserService();
 
   final ImagePicker _imagePicker = ImagePicker();
   String? imageUrL;
@@ -50,10 +48,7 @@ class ProfileViewModel extends ChangeNotifier {
       String url = await _storageService.uploadImage(profileImage!,
           StorageFolders.userImages, activeUser?.email ?? "no email");
 
-      if (context.mounted) {
-        //todo
-        //await updatePhotoUrl(getActiveUser(context), url);
-      }
+      updatePhotoUrl(UserManager.getUserData()!, url);
 
       changePhotoLoading();
       notifyListeners();
@@ -64,11 +59,7 @@ class ProfileViewModel extends ChangeNotifier {
     ActiveUser activeUser,
     String url,
   ) async {
-    await _firestoreService.updateDocument(
-      FirebaseCollections.users,
-      activeUser.id ?? '',
-      {'photo': url},
-    );
+    await _userService.updateUser(activeUser.id, {'photo': url});
   }
 
   void changePhotoLoading() {

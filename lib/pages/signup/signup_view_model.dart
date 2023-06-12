@@ -1,18 +1,17 @@
 import 'package:blog_app/models/active_user.dart';
 import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/services/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 import '../../models/user.dart' as UserModel;
 import '../../services/auth_service.dart';
-import '../../services/firestore_service.dart';
-import '../../utils/firebase_collection_enum.dart';
 import '../../utils/string_constants.dart';
 
 class SignupViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
-  final FirestoreService _firestoreService = FirestoreService();
+  final UserService _userService = UserService();
   TextEditingController name = TextEditingController();
   TextEditingController surname = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -36,8 +35,8 @@ class SignupViewModel extends ChangeNotifier {
     } else {
       UserModel.User newUser =
           UserModel.User(name.text, surname.text, email.text, 0, 0);
-      String docId = await _firestoreService.saveToFirebase(
-          newUser, FirebaseCollections.users);
+
+      String docId = await _userService.save(newUser);
 
       UserManager.setUserData(
           generateNewActiveUser(docId, name.text, surname.text, email.text));

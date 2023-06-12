@@ -1,5 +1,7 @@
-import 'package:blog_app/services/firestore_service.dart';
+import 'package:blog_app/models/user.dart';
+import 'package:blog_app/services/blog_service.dart';
 import 'package:blog_app/services/storage_service.dart';
+import 'package:blog_app/services/user_manager.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
 import 'package:blog_app/utils/string_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/blog.dart';
-import '../../utils/firebase_collection_enum.dart';
 
 class AddViewModel extends ChangeNotifier {
-  final FirestoreService _firestoreService = FirestoreService<Blog>();
   final StorageService _storageService = StorageService();
+  final BlogService _blogService = BlogService();
+
   TextEditingController titleText = TextEditingController();
   TextEditingController descriptionText = TextEditingController();
   List<String> tags = [];
@@ -28,27 +30,18 @@ class AddViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> saveBlogToFirebase() async {
+  Future<void> saveBlog() async {
     changeLoading();
-    String? photoUrl;
-    if (pickedImage != null) {
-      photoUrl = await _storageService.uploadImage(
-          pickedImage!,
-          StorageFolders.blogImages,
-          "${DateTime.now().microsecondsSinceEpoch}");
-    }
-
-    Blog newBlog = Blog(
-        null,
-        titleText.text,
-        descriptionText.text,
-        tags,
-        [],
-        Timestamp.fromDate(DateTime.now()),
-        photoUrl ?? StringConstants.defaultImage);
-    await _firestoreService.saveToFirebase(newBlog, FirebaseCollections.blogs);
+    Blog newBlog = await generateBlog();
+    await _blogService.save(newBlog, UserManager.getUserData()!.id);
     changeLoading();
     clear();
+  }
+
+  Future<String> savePhoto() async {
+    String url = await _storageService.uploadImage(pickedImage!,
+        StorageFolders.blogImages, "${DateTime.now().microsecondsSinceEpoch}");
+    return url;
   }
 
   Future<void> pickImageFromCamera() async {
@@ -59,6 +52,23 @@ class AddViewModel extends ChangeNotifier {
   Future<void> pickImageFromGallery() async {
     pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
     notifyListeners();
+  }
+
+  Future<Blog> generateBlog() async {
+    String? photoUrl;
+    if (pickedImage != null) {
+      photoUrl = await savePhoto();
+    }
+
+    return Blog(
+        null,
+        titleText.text,
+        descriptionText.text,
+        tags,
+        [],
+        Timestamp.fromDate(DateTime.now()),
+        photoUrl ?? StringConstants.defaultImage,
+        User.fromActiveUser(UserManager.getUserData()!));
   }
 
   void clear() {
