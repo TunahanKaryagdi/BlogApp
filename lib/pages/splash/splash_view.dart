@@ -1,5 +1,5 @@
 import 'package:blog_app/pages/splash/splash_view_model.dart';
-import 'package:blog_app/widgets/custom_title.dart';
+import 'package:blog_app/widgets/custom_texts.dart';
 
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,7 @@
 import 'package:blog_app/utils/string_constants.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../models/active_user.dart';
+import '../../models/active_user.dart';
 
 class UserManager {
   static late Box<ActiveUser> _userBox;

@@ -1,6 +1,6 @@
 import 'package:blog_app/models/active_user.dart';
-import 'package:blog_app/services/blog_service.dart';
-import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/services/firestore/blog_service.dart';
+import 'package:blog_app/services/local/user_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/blog.dart';

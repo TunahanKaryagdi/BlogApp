@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../models/blog.dart';
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_tag_view.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 import 'home_view_model.dart';
 
 class HomeView extends StatefulWidget {

@@ -8,7 +8,7 @@ import '../../utils/string_constants.dart';
 import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_selectable_tag_view.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 import 'add_view_model.dart';
 
 class AddView extends StatefulWidget {

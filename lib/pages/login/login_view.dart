@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../utils/custom_navigator.dart';
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 import 'login_view_model.dart';
 
 class LoginView extends StatefulWidget {
@@ -75,12 +75,31 @@ class LoginViewState extends State<LoginView> {
           },
         ),
         context.emptySizedHeightBoxNormal,
-        CustomButton(
-          widget: const Text(StringConstants.signup),
-          onClick: () {
+        _signupButton(context)
+      ],
+    );
+  }
+
+  Row _signupButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text(
+          StringConstants.dontHaveAccount,
+          style: TextStyle(),
+        ),
+        context.emptySizedWidthBoxLow,
+        InkWell(
+          onTap: () {
             CustomNavigator.pushTo(context, StringConstants.signupRoute);
           },
-        ),
+          child: Text(
+            StringConstants.signup,
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold),
+          ),
+        )
       ],
     );
   }

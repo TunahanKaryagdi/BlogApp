@@ -8,7 +8,7 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/string_constants.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

@@ -20,6 +20,7 @@ class StringConstants {
   static const String email = 'Email';
   static const String login = 'Login';
   static const String home = 'Home';
+  static const String dontHaveAccount = "Don't have account?";
 
   static const String signup = 'Sign up';
   static const String password = 'Password';

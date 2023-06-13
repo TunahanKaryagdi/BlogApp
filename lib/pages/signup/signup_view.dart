@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../utils/string_constants.dart';
 import '../../widgets/custom_button.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 import 'signup_view_model.dart';
 
 class SignupView extends StatefulWidget {

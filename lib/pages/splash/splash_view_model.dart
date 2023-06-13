@@ -1,4 +1,4 @@
-import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/services/local/user_manager.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:blog_app/utils/string_constants.dart';
 import 'package:flutter/widgets.dart';

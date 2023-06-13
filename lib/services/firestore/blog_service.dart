@@ -1,9 +1,9 @@
-import 'package:blog_app/services/user_service.dart';
+import 'package:blog_app/services/firestore/user_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/blog.dart';
-import '../models/user.dart';
-import '../utils/firebase_collection_enum.dart';
+import '../../models/blog.dart';
+import '../../models/user.dart';
+import '../../utils/firebase_collection_enum.dart';
 
 class BlogService {
   CollectionReference instance = FirebaseCollections.blogs.reference;

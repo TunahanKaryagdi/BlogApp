@@ -1,7 +1,7 @@
 import 'package:blog_app/models/user.dart';
-import 'package:blog_app/services/blog_service.dart';
-import 'package:blog_app/services/storage_service.dart';
-import 'package:blog_app/services/user_manager.dart';
+import 'package:blog_app/services/firestore/blog_service.dart';
+import 'package:blog_app/services/storage/storage_service.dart';
+import 'package:blog_app/services/local/user_manager.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
 import 'package:blog_app/utils/string_constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,7 +34,6 @@ class AddViewModel extends ChangeNotifier {
     changeLoading();
     Blog newBlog = await generateBlog();
     await _blogService.save(newBlog, UserManager.getUserData()!.id);
-    changeLoading();
     clear();
   }
 
@@ -76,7 +75,7 @@ class AddViewModel extends ChangeNotifier {
     titleText.text = "";
     descriptionText.text = "";
     pickedImage = null;
-    notifyListeners();
+    changeLoading();
   }
 
   void changeLoading() {

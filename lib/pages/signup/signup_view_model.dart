@@ -1,12 +1,12 @@
 import 'package:blog_app/models/active_user.dart';
-import 'package:blog_app/services/user_manager.dart';
-import 'package:blog_app/services/user_service.dart';
+import 'package:blog_app/services/local/user_manager.dart';
+import 'package:blog_app/services/firestore/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 import '../../models/user.dart' as UserModel;
-import '../../services/auth_service.dart';
+import '../../services/auth/auth_service.dart';
 import '../../utils/string_constants.dart';
 
 class SignupViewModel extends ChangeNotifier {
@@ -34,7 +34,7 @@ class SignupViewModel extends ChangeNotifier {
       return false;
     } else {
       UserModel.User newUser =
-          UserModel.User(name.text, surname.text, email.text, 0, 0);
+          UserModel.User(name.text, surname.text, email.text, 0, 0, "");
 
       String docId = await _userService.save(newUser);
 

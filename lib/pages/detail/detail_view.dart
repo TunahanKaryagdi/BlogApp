@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../models/blog.dart';
 import '../../utils/custom_navigator.dart';
 import '../../widgets/custom_tag_view.dart';
-import '../../widgets/custom_title.dart';
+import '../../widgets/custom_texts.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({super.key, required this.blog});

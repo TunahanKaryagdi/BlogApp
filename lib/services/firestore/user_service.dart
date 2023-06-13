@@ -1,7 +1,7 @@
 import 'package:blog_app/utils/firebase_collection_enum.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/user.dart';
+import '../../models/user.dart';
 
 class UserService {
   CollectionReference instance = FirebaseCollections.users.reference;

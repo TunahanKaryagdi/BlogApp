@@ -1,12 +1,12 @@
 import 'package:blog_app/models/active_user.dart';
-import 'package:blog_app/services/storage_service.dart';
-import 'package:blog_app/services/user_manager.dart';
-import 'package:blog_app/services/user_service.dart';
+import 'package:blog_app/services/storage/storage_service.dart';
+import 'package:blog_app/services/local/user_manager.dart';
+import 'package:blog_app/services/firestore/user_service.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../services/auth_service.dart';
+import '../../services/auth/auth_service.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();

@@ -1,11 +1,11 @@
-import 'package:blog_app/services/user_manager.dart';
-import 'package:blog_app/services/user_service.dart';
+import 'package:blog_app/services/local/user_manager.dart';
+import 'package:blog_app/services/firestore/user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
 import '../../models/active_user.dart';
-import '../../services/auth_service.dart';
+import '../../services/auth/auth_service.dart';
 import '../../utils/string_constants.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -39,7 +39,7 @@ class LoginViewModel extends ChangeNotifier {
           userModel.email,
           userModel.follow,
           userModel.follower,
-          userModel.photo ?? '');
+          userModel.photo);
 
       await UserManager.setUserData(activeUser);
 
