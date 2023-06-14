@@ -1,3 +1,4 @@
+import 'package:blog_app/utils/image_enum.dart';
 import 'package:blog_app/widgets/custom_circular_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -69,7 +70,9 @@ class _HomeViewState extends State<HomeView> {
             children: [
               CircleAvatar(
                 radius: context.dynamicWidth(0.1),
-                backgroundImage: Image.network(blog.photo).image,
+                backgroundImage: blog.photo.isEmpty
+                    ? Image.asset(ImageEnum.blog.imagePath).image
+                    : Image.network(blog.photo).image,
               ),
               context.emptySizedWidthBoxNormal,
               Expanded(

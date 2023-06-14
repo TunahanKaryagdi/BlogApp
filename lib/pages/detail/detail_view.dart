@@ -1,4 +1,5 @@
 import 'package:blog_app/pages/detail/detail_view_model.dart';
+import 'package:blog_app/utils/image_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -69,11 +70,17 @@ class _DetailViewState extends State<DetailView> {
   Stack _stackImageAndBackButton(BuildContext context) {
     return Stack(
       children: [
-        Image.network(
-          widget.blog.photo,
-          height: context.dynamicHeight(0.3),
-          width: double.infinity,
-        ),
+        widget.blog.photo.isEmpty
+            ? Image.asset(
+                ImageEnum.blog.imagePath,
+                height: context.dynamicHeight(0.3),
+                width: double.infinity,
+              )
+            : Image.network(
+                widget.blog.photo,
+                height: context.dynamicHeight(0.3),
+                width: double.infinity,
+              ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -118,6 +125,9 @@ class _DetailViewState extends State<DetailView> {
           children: [
             CircleAvatar(
               radius: context.dynamicWidth(0.08),
+              backgroundImage: widget.blog.user.photo.isEmpty
+                  ? Image.asset(ImageEnum.user.imagePath).image
+                  : Image.network(widget.blog.user.photo).image,
             ),
             context.emptySizedWidthBoxNormal,
             Column(

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:blog_app/pages/profile/profile_view_model.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
+import 'package:blog_app/utils/image_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kartal/kartal.dart';
@@ -156,7 +157,7 @@ class _ProfileViewState extends State<ProfileView> {
       if (photoUrl != null) {
         return Image.network(photoUrl).image;
       }
-      return null;
+      return Image.asset(ImageEnum.user.imagePath).image;
     }
     return Image.file(File(pickedFile.path)).image;
   }

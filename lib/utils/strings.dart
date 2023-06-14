@@ -43,7 +43,4 @@ class Strings {
   static const String follow = "Follow";
   static const String follower = "Follower";
   static const String photo = "Photo";
-
-  static const String defaultImage =
-      'https://avatars.githubusercontent.com/u/92988984?s=400&v=4';
 }

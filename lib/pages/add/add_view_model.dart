@@ -3,7 +3,6 @@ import 'package:blog_app/services/firestore/blog_service.dart';
 import 'package:blog_app/services/storage/storage_service.dart';
 import 'package:blog_app/services/local/user_manager.dart';
 import 'package:blog_app/utils/storage_folder_enum.dart';
-import 'package:blog_app/utils/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,7 +65,7 @@ class AddViewModel extends ChangeNotifier {
         tags,
         [],
         Timestamp.fromDate(DateTime.now()),
-        photoUrl ?? Strings.defaultImage,
+        photoUrl ?? "",
         User.fromActiveUser(UserManager.getUserData()!));
   }
 
