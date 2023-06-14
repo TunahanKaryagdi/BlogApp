@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class StringConstants {
-  const StringConstants._();
+class Strings {
+  const Strings._();
 
   static const String appName = "Blog App";
 
@@ -15,6 +15,10 @@ class StringConstants {
   static const String detailRoute = "/detail";
   static const String addRoute = "/add";
   static const String profileRoute = "/profile";
+
+//hive
+  static const String userBoxName = "activeUser";
+  static const String userKey = 'userKey';
 
   static const String helloText = 'Hello';
   static const String email = 'Email';
@@ -42,7 +46,4 @@ class StringConstants {
 
   static const String defaultImage =
       'https://avatars.githubusercontent.com/u/92988984?s=400&v=4';
-
-  static const String userBoxName = "activeUser";
-  static const String userKey = 'userKey';
 }

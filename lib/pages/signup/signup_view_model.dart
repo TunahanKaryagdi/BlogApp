@@ -7,7 +7,7 @@ import 'package:kartal/kartal.dart';
 
 import '../../models/user.dart' as UserModel;
 import '../../services/auth/auth_service.dart';
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 
 class SignupViewModel extends ChangeNotifier {
   final AuthService _authService = AuthService();
@@ -20,7 +20,7 @@ class SignupViewModel extends ChangeNotifier {
 
   String? textFieldValidator(String? value) {
     if (value.isNullOrEmpty) {
-      return StringConstants.typeSth;
+      return Strings.typeSth;
     }
     return null;
   }

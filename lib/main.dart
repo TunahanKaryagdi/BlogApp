@@ -2,7 +2,7 @@ import 'package:blog_app/pages/detail/detail_view.dart';
 import 'package:blog_app/pages/splash/splash_view.dart';
 import 'package:blog_app/services/local/user_manager.dart';
 import 'package:blog_app/utils/routes.dart';
-import 'package:blog_app/utils/string_constants.dart';
+import 'package:blog_app/utils/strings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) {},
       child: MaterialApp(
-        title: StringConstants.appName,
+        title: Strings.appName,
         routes: customRoutes,
         onGenerateRoute: (settings) {
-          if (settings.name == StringConstants.detailRoute) {
+          if (settings.name == Strings.detailRoute) {
             final args = settings.arguments as Blog;
             return PageRouteBuilder(
               pageBuilder: (_, __, ___) => DetailView(blog: args),
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           }
           return null;
         },
-        initialRoute: StringConstants.splashRoute,
+        initialRoute: Strings.splashRoute,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.brown).copyWith(
             appBarTheme: const AppBarTheme(

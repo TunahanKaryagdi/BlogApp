@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../../widgets/custom_texts.dart';
 
 class ProfileView extends StatefulWidget {
@@ -31,7 +31,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: customPageTitle(context, StringConstants.profile),
+        title: customPageTitle(context, Strings.profile),
         actions: [_logoutButton(context)],
       ),
       body: ChangeNotifierProvider.value(
@@ -52,14 +52,14 @@ class _ProfileViewState extends State<ProfileView> {
                           _viewModel.activeUser?.follow ?? 0,
                           _viewModel.activeUser?.follower ?? 0),
                       context.emptySizedHeightBoxNormal,
-                      _keyAndValue(StringConstants.name,
-                          _viewModel.activeUser?.name ?? ''),
+                      _keyAndValue(
+                          Strings.name, _viewModel.activeUser?.name ?? ''),
                       _divider(),
-                      _keyAndValue(StringConstants.surname,
+                      _keyAndValue(Strings.surname,
                           _viewModel.activeUser?.surname ?? ''),
                       _divider(),
-                      _keyAndValue(StringConstants.email,
-                          _viewModel.activeUser?.email ?? ''),
+                      _keyAndValue(
+                          Strings.email, _viewModel.activeUser?.email ?? ''),
                     ]),
               ),
       ),
@@ -75,8 +75,7 @@ class _ProfileViewState extends State<ProfileView> {
       onPressed: () async {
         bool isLogout = await _viewModel.logout();
         if (isLogout && context.mounted) {
-          CustomNavigator.pushReplacementTo(
-              context, StringConstants.loginRoute);
+          CustomNavigator.pushReplacementTo(context, Strings.loginRoute);
         }
       },
     );
@@ -120,14 +119,14 @@ class _ProfileViewState extends State<ProfileView> {
         Column(
           children: [
             customTitle(context, follow.toString()),
-            customTitle(context, StringConstants.follow)
+            customTitle(context, Strings.follow)
           ],
         ),
         context.emptySizedWidthBoxNormal,
         Column(
           children: [
             customTitle(context, follower.toString()),
-            customTitle(context, StringConstants.follower)
+            customTitle(context, Strings.follower)
           ],
         )
       ],

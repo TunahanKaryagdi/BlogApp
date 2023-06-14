@@ -4,7 +4,7 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/custom_navigator.dart';
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_texts.dart';
 import 'login_view_model.dart';
@@ -52,24 +52,23 @@ class LoginViewState extends State<LoginView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        customPageTitle(context, StringConstants.helloText),
+        customPageTitle(context, Strings.helloText),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.email, _viewModel.email,
-            Icons.email_outlined, _viewModel.textFieldValidator),
+        customTextField(Strings.email, _viewModel.email, Icons.email_outlined,
+            _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.password, _viewModel.password,
+        customTextField(Strings.password, _viewModel.password,
             Icons.lock_outline, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<LoginViewModel>().isLoading
               ? const CircularProgressIndicator()
-              : const Text(StringConstants.login),
+              : const Text(Strings.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
               bool isLogin = await _viewModel.login(context);
               if (isLogin && context.mounted) {
-                CustomNavigator.pushAndRemoveUntil(
-                    context, StringConstants.mainRoute);
+                CustomNavigator.pushAndRemoveUntil(context, Strings.mainRoute);
               }
             }
           },
@@ -85,16 +84,16 @@ class LoginViewState extends State<LoginView> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          StringConstants.dontHaveAccount,
+          Strings.dontHaveAccount,
           style: TextStyle(),
         ),
         context.emptySizedWidthBoxLow,
         InkWell(
           onTap: () {
-            CustomNavigator.pushTo(context, StringConstants.signupRoute);
+            CustomNavigator.pushTo(context, Strings.signupRoute);
           },
           child: Text(
-            StringConstants.signup,
+            Strings.signup,
             style: TextStyle(
                 color: Theme.of(context).primaryColor,
                 fontWeight: FontWeight.bold),

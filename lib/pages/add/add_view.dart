@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../../utils/tag_texts_enum.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_selectable_tag_view.dart';
@@ -32,7 +32,7 @@ class _AddViewState extends State<AddView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: customPageTitle(context, StringConstants.create),
+          title: customPageTitle(context, Strings.create),
         ),
         body: ChangeNotifierProvider.value(
           value: _viewModel,
@@ -52,19 +52,19 @@ class _AddViewState extends State<AddView> {
 
   Column _titlesAndInputColumn(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      customTitle(context, StringConstants.tags),
+      customTitle(context, Strings.tags),
       context.emptySizedHeightBoxLow,
       _tagsRow(),
       context.emptySizedHeightBoxLow,
-      customTitle(context, StringConstants.photo),
+      customTitle(context, Strings.photo),
       context.emptySizedHeightBoxLow,
       _photoRow(context),
       context.emptySizedHeightBoxNormal,
-      customTitle(context, StringConstants.title),
+      customTitle(context, Strings.title),
       context.emptySizedHeightBoxLow,
       _titleTextField(context),
       context.emptySizedHeightBoxNormal,
-      customTitle(context, StringConstants.description),
+      customTitle(context, Strings.description),
       context.emptySizedHeightBoxLow,
       _descriptionTextField(context),
       context.emptySizedHeightBoxNormal,
@@ -76,7 +76,7 @@ class _AddViewState extends State<AddView> {
     return CustomButton(
         widget: _viewModel.isLoading
             ? const CircularProgressIndicator()
-            : const Text(StringConstants.save),
+            : const Text(Strings.save),
         onClick: () {
           if (_formKey.currentState?.validate() ?? false) {
             _viewModel.saveBlog();
@@ -87,12 +87,12 @@ class _AddViewState extends State<AddView> {
   TextFormField _descriptionTextField(BuildContext context) {
     return TextFormField(
         controller: context.watch<AddViewModel>().descriptionText,
-        decoration: _inputDecoration(StringConstants.description),
+        decoration: _inputDecoration(Strings.description),
         minLines: 6,
         maxLines: 9,
         validator: (value) {
           if (value.isNullOrEmpty) {
-            return StringConstants.typeSth;
+            return Strings.typeSth;
           }
           return null;
         });
@@ -101,10 +101,10 @@ class _AddViewState extends State<AddView> {
   TextFormField _titleTextField(BuildContext context) {
     return TextFormField(
       controller: context.watch<AddViewModel>().titleText,
-      decoration: _inputDecoration(StringConstants.title),
+      decoration: _inputDecoration(Strings.title),
       validator: (value) {
         if (value.isNullOrEmpty) {
-          return StringConstants.typeSth;
+          return Strings.typeSth;
         }
         return null;
       },

@@ -1,6 +1,6 @@
 import 'package:blog_app/services/local/user_manager.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
-import 'package:blog_app/utils/string_constants.dart';
+import 'package:blog_app/utils/strings.dart';
 import 'package:flutter/widgets.dart';
 
 class SplashViewModel extends ChangeNotifier {
@@ -8,9 +8,9 @@ class SplashViewModel extends ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 1500));
     var user = UserManager.getUserData();
     if (user == null) {
-      CustomNavigator.pushReplacementTo(context, StringConstants.loginRoute);
+      CustomNavigator.pushReplacementTo(context, Strings.loginRoute);
     } else {
-      CustomNavigator.pushAndRemoveUntil(context, StringConstants.mainRoute);
+      CustomNavigator.pushAndRemoveUntil(context, Strings.mainRoute);
     }
   }
 }

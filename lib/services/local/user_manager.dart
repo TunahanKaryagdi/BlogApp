@@ -1,4 +1,4 @@
-import 'package:blog_app/utils/string_constants.dart';
+import 'package:blog_app/utils/strings.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/active_user.dart';
@@ -9,18 +9,18 @@ class UserManager {
   static Future<void> initialize() async {
     await Hive.initFlutter();
     Hive.registerAdapter(ActiveUserAdapter());
-    _userBox = await Hive.openBox(StringConstants.userBoxName);
+    _userBox = await Hive.openBox(Strings.userBoxName);
   }
 
   static ActiveUser? getUserData() {
-    return _userBox.get(StringConstants.userKey);
+    return _userBox.get(Strings.userKey);
   }
 
   static Future<void> setUserData(ActiveUser data) async {
-    await _userBox.put(StringConstants.userKey, data);
+    await _userBox.put(Strings.userKey, data);
   }
 
   static Future<void> deleteUserData() async {
-    await _userBox.delete(StringConstants.userKey);
+    await _userBox.delete(Strings.userKey);
   }
 }

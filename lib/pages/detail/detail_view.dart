@@ -83,18 +83,28 @@ class _DetailViewState extends State<DetailView> {
               },
               child: const Icon(Icons.arrow_back),
             ),
-            InkWell(
-              onTap: () async {
-                await _viewModel.onClickedLikeButton(_viewModel.activeBlog!,
-                    _viewModel.getActiveUser()?.id ?? '');
-              },
-              child: _viewModel.isLiked(
-                      context.watch<DetailViewModel>().activeBlog!,
-                      _viewModel.getActiveUser()?.id ?? '')
-                  ? const Icon(Icons.favorite)
-                  : const Icon(Icons.favorite_border),
-            )
+            _likeButtonAndCount(context)
           ],
+        )
+      ],
+    );
+  }
+
+  Row _likeButtonAndCount(BuildContext context) {
+    return Row(
+      children: [
+        Text(_viewModel.activeBlog?.like.length.toString() ?? '0'),
+        context.emptySizedWidthBoxLow,
+        InkWell(
+          onTap: () async {
+            await _viewModel.onClickedLikeButton(
+                _viewModel.activeBlog!, _viewModel.getActiveUser()?.id ?? '');
+          },
+          child: _viewModel.isLiked(
+                  context.watch<DetailViewModel>().activeBlog!,
+                  _viewModel.getActiveUser()?.id ?? '')
+              ? const Icon(Icons.favorite)
+              : const Icon(Icons.favorite_border),
         )
       ],
     );

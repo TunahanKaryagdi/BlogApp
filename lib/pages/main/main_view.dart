@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../add/add_view.dart';
 import '../home/home_view.dart';
 import '../profile/profile_view.dart';
@@ -33,16 +33,14 @@ class _MainViewState extends State<MainView> {
         },
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
-      
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: StringConstants.home,
+            label: Strings.home,
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: Strings.add),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add), label: StringConstants.add),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.abc), label: StringConstants.profile),
+              icon: Icon(Icons.abc), label: Strings.profile),
         ],
       ),
     );

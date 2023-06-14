@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_texts.dart';
 import 'signup_view_model.dart';
@@ -54,30 +54,29 @@ class _SignupViewState extends State<SignupView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        customPageTitle(context, StringConstants.signup),
+        customPageTitle(context, Strings.signup),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.name, _viewModel.name,
+        customTextField(Strings.name, _viewModel.name,
             Icons.account_box_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.surname, _viewModel.surname,
+        customTextField(Strings.surname, _viewModel.surname,
             Icons.account_box_outlined, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.email, _viewModel.email,
-            Icons.email_outlined, _viewModel.textFieldValidator),
+        customTextField(Strings.email, _viewModel.email, Icons.email_outlined,
+            _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(StringConstants.password, _viewModel.password,
+        customTextField(Strings.password, _viewModel.password,
             Icons.lock_outline, _viewModel.textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<SignupViewModel>().isLoading
               ? const CircularProgressIndicator()
-              : const Text(StringConstants.save),
+              : const Text(Strings.save),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
               bool isSignup = await _viewModel.signUp(context);
               if (isSignup && context.mounted) {
-                CustomNavigator.pushAndRemoveUntil(
-                    context, StringConstants.mainRoute);
+                CustomNavigator.pushAndRemoveUntil(context, Strings.mainRoute);
               }
             }
           },

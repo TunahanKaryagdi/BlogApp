@@ -4,7 +4,7 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/blog.dart';
-import '../../utils/string_constants.dart';
+import '../../utils/strings.dart';
 import '../../widgets/custom_tag_view.dart';
 import '../../widgets/custom_texts.dart';
 import 'home_view_model.dart';
@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(
-            title: customPageTitle(context, StringConstants.home),
+            title: customPageTitle(context, Strings.home),
           ),
           body: context.watch<HomeViewModel>().isLoading
               ? customCircularBar(context)
