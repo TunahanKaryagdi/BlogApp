@@ -15,6 +15,7 @@ class Strings {
   static const String detailRoute = "/detail";
   static const String addRoute = "/add";
   static const String profileRoute = "/profile";
+  static const String favoriteRoute = "/favorite";
 
 //hive
   static const String userBoxName = "activeUser";
@@ -43,4 +44,6 @@ class Strings {
   static const String follow = "Follow";
   static const String follower = "Follower";
   static const String photo = "Photo";
+
+  static const String favorite = "Favorite";
 }

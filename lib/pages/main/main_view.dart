@@ -1,3 +1,4 @@
+import 'package:blog_app/pages/favorite/favorite_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/strings.dart';
@@ -16,7 +17,8 @@ class _MainViewState extends State<MainView> {
   final List<Widget> _children = [
     const HomeView(),
     const AddView(),
-    const ProfileView()
+    const FavoriteView(),
+    const ProfileView(),
   ];
 
   int _currentIndex = 0;
@@ -39,6 +41,8 @@ class _MainViewState extends State<MainView> {
             label: Strings.home,
           ),
           BottomNavigationBarItem(icon: Icon(Icons.add), label: Strings.add),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: Strings.favorite),
           BottomNavigationBarItem(
               icon: Icon(Icons.abc), label: Strings.profile),
         ],

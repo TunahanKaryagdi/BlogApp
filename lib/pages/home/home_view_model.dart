@@ -17,12 +17,6 @@ class HomeViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> start() async {
-    changeLoading();
-    await getBlogs();
-    changeLoading();
-  }
-
   void changeLoading() {
     isLoading = !isLoading;
     notifyListeners();

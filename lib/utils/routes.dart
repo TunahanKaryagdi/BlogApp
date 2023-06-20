@@ -1,5 +1,6 @@
 import 'package:blog_app/pages/add/add_view.dart';
 import 'package:blog_app/pages/detail/detail_view.dart';
+import 'package:blog_app/pages/favorite/favorite_view.dart';
 import 'package:blog_app/pages/home/home_view.dart';
 import 'package:blog_app/pages/login/login_view.dart';
 import 'package:blog_app/pages/main/main_view.dart';
@@ -22,5 +23,6 @@ final Map<String, WidgetBuilder> customRoutes = {
     return DetailView(blog: blog);
   },
   Strings.addRoute: (context) => const AddView(),
-  Strings.profileRoute: (context) => const ProfileView()
+  Strings.profileRoute: (context) => const ProfileView(),
+  Strings.favoriteRoute: (context) => const FavoriteView()
 };
