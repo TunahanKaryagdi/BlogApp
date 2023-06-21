@@ -137,8 +137,8 @@ class _ProfileViewState extends State<ProfileView> {
   Row _keyAndValue(String key, String value) {
     return Row(
       children: [
-        Expanded(flex: 2, child: customTitle(context, "$key:")),
-        Expanded(flex: 5, child: customTitle(context, value))
+        Expanded(flex: 2, child: customNormalText(context, "$key:")),
+        Expanded(flex: 6, child: customNormalText(context, value))
       ],
     );
   }

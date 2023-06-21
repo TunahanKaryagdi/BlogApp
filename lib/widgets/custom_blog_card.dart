@@ -24,6 +24,25 @@ class CustomBlogCard extends StatelessWidget {
     return '${difference.inDays.toString()} days ago';
   }
 
+  Widget circleAvatar(BuildContext context, String url) {
+    return CircleAvatar(
+        radius: context.dynamicWidth(0.1),
+        backgroundImage:
+            url.isEmpty ? Image.asset(ImageEnum.blog.imagePath).image : null,
+        child: url.isNotEmpty
+            ? Image.network(url,
+                loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return CircleAvatar(
+                    radius: context.dynamicWidth(0.1),
+                    backgroundImage: Image.network(url).image,
+                  );
+                }
+                return const CircularProgressIndicator();
+              })
+            : null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -33,12 +52,7 @@ class CustomBlogCard extends StatelessWidget {
           padding: context.paddingNormal,
           child: Row(
             children: [
-              CircleAvatar(
-                radius: context.dynamicWidth(0.1),
-                backgroundImage: blog.photo.isEmpty
-                    ? Image.asset(ImageEnum.blog.imagePath).image
-                    : Image.network(blog.photo).image,
-              ),
+              circleAvatar(context, blog.photo),
               context.emptySizedWidthBoxNormal,
               Expanded(
                 child: Column(
