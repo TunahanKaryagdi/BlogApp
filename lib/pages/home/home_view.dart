@@ -1,5 +1,7 @@
+import 'package:blog_app/utils/tag_texts_enum.dart';
 import 'package:blog_app/widgets/custom_blog_card.dart';
 import 'package:blog_app/widgets/custom_circular_bar.dart';
+import 'package:blog_app/widgets/custom_selectable_tag_view.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
@@ -35,25 +37,47 @@ class _HomeViewState extends State<HomeView> {
           appBar: AppBar(
             title: customPageTitle(context, Strings.home),
           ),
-          body: context.watch<HomeViewModel>().isLoading
-              ? customCircularBar(context)
-              : Padding(
-                  padding: context.paddingLow,
-                  child: ListView.builder(
-                    itemCount: context.watch<HomeViewModel>().blogList.length,
-                    itemBuilder: (context, index) {
-                      Blog blog =
-                          context.watch<HomeViewModel>().blogList[index];
-                      return CustomBlogCard(
-                          blog: blog,
-                          onClick: () {
-                            _viewModel.goToDetailPage(context, blog);
-                          });
-                    },
-                  ),
-                ),
+          body: Padding(
+            padding: context.paddingLow,
+            child: Column(
+              children: [
+                _tagsRow(),
+                context.emptySizedHeightBoxLow,
+                Expanded(
+                  child: context.watch<HomeViewModel>().isLoading
+                      ? customCircularBar(context)
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount:
+                              context.watch<HomeViewModel>().blogList.length,
+                          itemBuilder: (context, index) {
+                            Blog blog =
+                                context.watch<HomeViewModel>().blogList[index];
+                            return CustomBlogCard(
+                                blog: blog,
+                                onClick: () {
+                                  _viewModel.goToDetailPage(context, blog);
+                                });
+                          },
+                        ),
+                )
+              ],
+            ),
+          ),
         );
       },
+    );
+  }
+
+  Row _tagsRow() {
+    return Row(
+      children: TagTexts.values
+          .map((e) => CustomSelectableTagView(
+              onclick: (text, isSelected) {
+                _viewModel.onClickTag(text, isSelected);
+              },
+              text: e.name))
+          .toList(),
     );
   }
 }
