@@ -1,7 +1,7 @@
 import 'package:blog_app/pages/splash/splash_view_model.dart';
-import 'package:blog_app/widgets/custom_texts.dart';
 
 import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -26,7 +26,11 @@ class _SplashViewState extends State<SplashView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: customPageTitle(context, 'Splash'),
+      child: Icon(
+        Icons.auto_stories_outlined,
+        size: context.mediaQuery.size.width * 0.5,
+        color: context.appTheme.primaryColor,
+      ),
     ));
   }
 }

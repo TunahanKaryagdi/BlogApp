@@ -10,6 +10,11 @@ class CustomNavigator {
     Navigator.of(context).pushNamed(route, arguments: argument);
   }
 
+  static void pushReplacementToWithArgument(
+      BuildContext context, String route, dynamic argument) {
+    Navigator.of(context).pushReplacementNamed(route, arguments: argument);
+  }
+
   static void pushReplacementTo(BuildContext context, String route) {
     Navigator.of(context).pushReplacementNamed(route);
   }

@@ -28,6 +28,8 @@ class _MainViewState extends State<MainView> {
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
         onTap: (value) {
           setState(() {
             _currentIndex = value;
