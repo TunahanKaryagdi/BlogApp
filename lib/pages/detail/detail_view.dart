@@ -123,12 +123,14 @@ class _DetailViewState extends State<DetailView> {
         padding: context.paddingNormal,
         child: Row(
           children: [
-            CircleAvatar(
-              radius: context.dynamicWidth(0.08),
-              backgroundImage: widget.blog.user.photo.isEmpty
-                  ? Image.asset(ImageEnum.user.imagePath).image
-                  : Image.network(widget.blog.user.photo).image,
-            ),
+            widget.blog.user.photo.isEmpty
+                ? CircleAvatar(
+                    radius: context.dynamicWidth(0.08),
+                    backgroundImage: widget.blog.user.photo.isEmpty
+                        ? Image.asset(ImageEnum.user.imagePath).image
+                        : Image.network(widget.blog.user.photo).image,
+                  )
+                : circleAvatar(context, widget.blog.user.photo),
             context.emptySizedWidthBoxNormal,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,5 +147,24 @@ class _DetailViewState extends State<DetailView> {
         ),
       ),
     );
+  }
+
+  Widget circleAvatar(BuildContext context, String url) {
+    return CircleAvatar(
+        radius: context.dynamicWidth(0.1),
+        backgroundImage:
+            url.isEmpty ? Image.asset(ImageEnum.blog.imagePath).image : null,
+        child: url.isNotEmpty
+            ? Image.network(url,
+                loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return CircleAvatar(
+                    radius: context.dynamicWidth(0.1),
+                    backgroundImage: Image.network(url).image,
+                  );
+                }
+                return const CircularProgressIndicator();
+              })
+            : null);
   }
 }

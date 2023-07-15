@@ -17,13 +17,25 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-  final _formKey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey;
   late final LoginViewModel _viewModel;
+
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _formKey = GlobalKey<FormState>();
     _viewModel = LoginViewModel();
+  }
+
+  //email ve password textfieldları için doğrulama
+  String? _textFieldValidator(String? value) {
+    if (value.isNullOrEmpty) {
+      return Strings.typeSth;
+    }
+    return null;
   }
 
   @override
@@ -54,11 +66,11 @@ class LoginViewState extends State<LoginView> {
       children: [
         customPageTitle(context, Strings.helloText),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.email, _viewModel.email, Icons.email_outlined,
-            _viewModel.textFieldValidator),
+        customTextField(Strings.email, emailTextController,
+            Icons.email_outlined, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.password, _viewModel.password,
-            Icons.lock_outline, _viewModel.textFieldValidator),
+        customTextField(Strings.password, passwordTextController,
+            Icons.lock_outline, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<LoginViewModel>().isLoading
@@ -66,7 +78,8 @@ class LoginViewState extends State<LoginView> {
               : const Text(Strings.login),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              bool isLogin = await _viewModel.login(context);
+              bool isLogin = await _viewModel.login(
+                  emailTextController.text, passwordTextController.text);
               if (isLogin && context.mounted) {
                 CustomNavigator.pushAndRemoveUntil(context, Strings.mainRoute);
               }

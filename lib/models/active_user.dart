@@ -28,4 +28,22 @@ class ActiveUser extends ChangeNotifier {
 
   ActiveUser(this.id, this.name, this.surname, this.email, this.follow,
       this.follower, this.photo);
+
+  ActiveUser copyWith(
+          {String? id,
+          String? name,
+          String? surname,
+          String? email,
+          int? follow,
+          int? follower,
+          String? photo}) =>
+      ActiveUser(
+        id ?? this.id,
+        name ?? this.name,
+        surname ?? this.surname,
+        email ?? this.email,
+        follow ?? this.follow,
+        follower ?? this.follower,
+        photo ?? this.photo,
+      );
 }

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:blog_app/pages/profile/profile_view_model.dart';
 import 'package:blog_app/utils/custom_navigator.dart';
 import 'package:blog_app/utils/image_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
@@ -102,14 +99,16 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   InkWell _circularAvatar(BuildContext context) {
+    String? url = context.watch<ProfileViewModel>().activeUser?.photo;
     return InkWell(
       onTap: () async {
-        //await _viewModel.pickImage(context);
+        await _viewModel.pickImage(context);
       },
-      child: CircleAvatar(
-        backgroundImage: _circularAvatarBackground(context),
-        radius: context.dynamicWidth(0.15),
-      ),
+      child: url != null && url.isNotEmpty
+          ? circleAvatar(context, url)
+          : CircleAvatar(
+              radius: context.dynamicWidth(0.15),
+            ),
     );
   }
 
@@ -151,14 +150,31 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   ImageProvider? _circularAvatarBackground(BuildContext context) {
-    XFile? pickedFile = context.watch<ProfileViewModel>().profileImage;
-    String? photoUrl = context.watch<ProfileViewModel>().imageUrL;
-    if (pickedFile == null) {
-      if (photoUrl != null) {
-        return Image.network(photoUrl).image;
-      }
+    String? photoUrl = context.watch<ProfileViewModel>().activeUser?.photo;
+
+    if (photoUrl != null) {
+      return Image.network(photoUrl).image;
+    } else {
       return Image.asset(ImageEnum.user.imagePath).image;
     }
-    return Image.file(File(pickedFile.path)).image;
+  }
+
+  Widget circleAvatar(BuildContext context, String url) {
+    return CircleAvatar(
+        radius: context.dynamicWidth(0.15),
+        backgroundImage:
+            url.isEmpty ? Image.asset(ImageEnum.blog.imagePath).image : null,
+        child: url.isNotEmpty
+            ? Image.network(url,
+                loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return CircleAvatar(
+                    radius: context.dynamicWidth(0.15),
+                    backgroundImage: Image.network(url).image,
+                  );
+                }
+                return const CircularProgressIndicator();
+              })
+            : null);
   }
 }

@@ -14,7 +14,6 @@ class ProfileViewModel extends ChangeNotifier {
   final UserService _userService = UserService();
 
   final ImagePicker _imagePicker = ImagePicker();
-  String? imageUrL;
   XFile? profileImage;
 
   bool isProfilePhotoLoading = false;
@@ -43,15 +42,21 @@ class ProfileViewModel extends ChangeNotifier {
 
   Future<void> pickImage(BuildContext context) async {
     profileImage = await _imagePicker.pickImage(source: ImageSource.camera);
-    if (profileImage != null) {
+    if (profileImage != null && activeUser != null) {
       changePhotoLoading();
+
+      //firebase storagea uploadl
       String url = await _storageService.uploadImage(profileImage!,
           StorageFolders.userImages, activeUser?.email ?? "no email");
 
+      //firebase firestoredaki ilgili kullanıcının bilgisini güncelle
       updatePhotoUrl(UserManager.getUserData()!, url);
 
+      //localdeki kullanıcıyı güncelle
+      UserManager.setUserData(activeUser!.copyWith(photo: url));
+      fetchData();
+
       changePhotoLoading();
-      notifyListeners();
     } else {}
   }
 

@@ -17,13 +17,26 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> {
-  final _formKey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey;
   late final SignupViewModel _viewModel;
+
+  final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _surnameTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passwordTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _formKey = GlobalKey<FormState>();
     _viewModel = SignupViewModel();
+  }
+
+  String? _textFieldValidator(String? value) {
+    if (value.isNullOrEmpty) {
+      return Strings.typeSth;
+    }
+    return null;
   }
 
   @override
@@ -56,17 +69,17 @@ class _SignupViewState extends State<SignupView> {
       children: [
         customPageTitle(context, Strings.signup),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.name, _viewModel.name,
-            Icons.account_box_outlined, _viewModel.textFieldValidator),
+        customTextField(Strings.name, _nameTextController,
+            Icons.account_box_outlined, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.surname, _viewModel.surname,
-            Icons.account_box_outlined, _viewModel.textFieldValidator),
+        customTextField(Strings.surname, _surnameTextController,
+            Icons.account_box_outlined, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.email, _viewModel.email, Icons.email_outlined,
-            _viewModel.textFieldValidator),
+        customTextField(Strings.email, _emailTextController,
+            Icons.email_outlined, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
-        customTextField(Strings.password, _viewModel.password,
-            Icons.lock_outline, _viewModel.textFieldValidator),
+        customTextField(Strings.password, _passwordTextController,
+            Icons.lock_outline, _textFieldValidator),
         context.emptySizedHeightBoxNormal,
         CustomButton(
           widget: context.watch<SignupViewModel>().isLoading
@@ -74,7 +87,11 @@ class _SignupViewState extends State<SignupView> {
               : const Text(Strings.save),
           onClick: () async {
             if (_formKey.currentState?.validate() ?? false) {
-              bool isSignup = await _viewModel.signUp(context);
+              bool isSignup = await _viewModel.signUp(
+                  _nameTextController.text,
+                  _surnameTextController.text,
+                  _emailTextController.text,
+                  _passwordTextController.text);
               if (isSignup && context.mounted) {
                 CustomNavigator.pushAndRemoveUntil(context, Strings.mainRoute);
               }
