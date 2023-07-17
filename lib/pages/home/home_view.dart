@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/custom_navigator.dart';
 import '../../models/blog.dart';
 import '../../utils/strings.dart';
 import '../../widgets/custom_texts.dart';
@@ -56,7 +57,8 @@ class _HomeViewState extends State<HomeView> {
                             return CustomBlogCard(
                                 blog: blog,
                                 onClick: () {
-                                  _viewModel.goToDetailPage(context, blog);
+                                  CustomNavigator.pushToWithArgument(
+                                      context, Strings.detailRoute, blog);
                                 });
                           },
                         ),

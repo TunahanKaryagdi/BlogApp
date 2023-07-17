@@ -13,8 +13,6 @@ class AddViewModel extends ChangeNotifier {
   final StorageService _storageService = StorageService();
   final BlogService _blogService = BlogService();
 
-  TextEditingController titleText = TextEditingController();
-  TextEditingController descriptionText = TextEditingController();
   List<String> tags = [];
   bool isLoading = false;
 
@@ -29,11 +27,12 @@ class AddViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> saveBlog() async {
+  Future<bool> saveBlog(String title, String desc) async {
     changeLoading();
-    Blog newBlog = await generateBlog();
+    Blog newBlog = await generateBlog(title, desc);
     await _blogService.save(newBlog, UserManager.getUserData()!.id);
     clear();
+    return true;
   }
 
   Future<String> savePhoto() async {
@@ -52,27 +51,18 @@ class AddViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Blog> generateBlog() async {
+  Future<Blog> generateBlog(String title, String desc) async {
     String? photoUrl;
     if (pickedImage != null) {
       photoUrl = await savePhoto();
     }
 
-    return Blog(
-        null,
-        titleText.text,
-        descriptionText.text,
-        tags,
-        [],
-        Timestamp.fromDate(DateTime.now()),
-        photoUrl ?? "",
-        User.fromActiveUser(UserManager.getUserData()!));
+    return Blog(null, title, desc, tags, [], Timestamp.fromDate(DateTime.now()),
+        photoUrl ?? "", User.fromActiveUser(UserManager.getUserData()!));
   }
 
   void clear() {
     tags.clear();
-    titleText.text = "";
-    descriptionText.text = "";
     pickedImage = null;
     changeLoading();
   }

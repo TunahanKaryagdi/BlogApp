@@ -20,11 +20,16 @@ class AddView extends StatefulWidget {
 
 class _AddViewState extends State<AddView> {
   late final AddViewModel _viewModel;
-  final _formKey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey;
+
+  final TextEditingController _titleTextController = TextEditingController();
+  final TextEditingController _descriptionTextController =
+      TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _formKey = GlobalKey<FormState>();
     _viewModel = AddViewModel();
   }
 
@@ -77,16 +82,21 @@ class _AddViewState extends State<AddView> {
         widget: _viewModel.isLoading
             ? const CircularProgressIndicator()
             : const Text(Strings.save),
-        onClick: () {
+        onClick: () async {
           if (_formKey.currentState?.validate() ?? false) {
-            _viewModel.saveBlog();
+            bool isOk = await _viewModel.saveBlog(
+                _titleTextController.text, _descriptionTextController.text);
+            if (isOk) {
+              _descriptionTextController.text = "";
+              _titleTextController.text = "";
+            }
           }
         });
   }
 
   TextFormField _descriptionTextField(BuildContext context) {
     return TextFormField(
-        controller: context.watch<AddViewModel>().descriptionText,
+        controller: _descriptionTextController,
         decoration: _inputDecoration(Strings.description),
         minLines: 6,
         maxLines: 9,
@@ -100,7 +110,7 @@ class _AddViewState extends State<AddView> {
 
   TextFormField _titleTextField(BuildContext context) {
     return TextFormField(
-      controller: context.watch<AddViewModel>().titleText,
+      controller: _titleTextController,
       decoration: _inputDecoration(Strings.title),
       validator: (value) {
         if (value.isNullOrEmpty) {
